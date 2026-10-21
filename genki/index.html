@@ -1,0 +1,867 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="今天卡在哪裡？選一類，抽一張元氣卡：一個題目、一個小解法、一句名言。查查創意出品。">
+<meta property="og:title" content="每日元氣卡｜查查創意">
+<meta property="og:description" content="選一類，抽一張。每天 3 次，收進你的卡冊。">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y0VX6H9PVX"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-Y0VX6H9PVX');</script>
+<title>每日元氣卡</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Montserrat:wght@600;800&display=swap">
+<style>
+/* Layout: one narrow column like a card table — picker, the card, today's counter, my collection, then course shelf. */
+:root{
+  --paper:#FFF9EC;      /* page ground, warm but bright */
+  --ink:#16244A;        /* navy line colour shared with the illustrations */
+  --ink-soft:#4A5677;
+  --chip:#FFFFFF;
+  --line:#E8DFC9;
+  --sun:#FFD84D;        /* brand highlight for buttons */
+  --t-dir:#3FA9F5;      /* 方向 */
+  --t-work:#FF5A5F;     /* 工作 */
+  --t-genki:#FF5FA8;    /* 元氣 */
+  --t-love:#2EC27E;     /* 感情 */
+  --t-self:#9B6BFF;     /* 自己 */
+  --t-idea:#E8C300;     /* 創意 */
+  --t-gold:#F6C343;     /* 限定卡 */
+  --card-cream:#FFF6E0;
+  color-scheme:light;
+  --display:"Montserrat","Noto Sans TC",system-ui,sans-serif;
+  --body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+
+html{-webkit-text-size-adjust:100%}
+body{margin:0}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 48px}
+.wrap{max-width:460px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+.sample{font-size:12px;letter-spacing:.06em;color:var(--ink-soft);border:1px dashed var(--line);border-radius:8px;padding:6px 10px;text-align:center}
+header{display:flex;flex-direction:column;gap:4px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand img{width:40px;height:auto;display:block}
+.brand small{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--ink-soft)}
+.status{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;background:var(--chip);border:2px solid #16244A;border-radius:18px;padding:12px 14px;box-shadow:3px 3px 0 #16244A}
+.lv b{font-size:15px}
+.bar{height:10px;border-radius:99px;background:var(--line);overflow:hidden;margin:6px 0 4px}
+.bar i{display:block;height:100%;width:0;background:#FF5FA8;border-radius:99px;transition:width .5s}
+.lv small,.streak small{font-size:12px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.streak{text-align:center;background:#FFD84D;border:2px solid #16244A;border-radius:14px;padding:6px 12px;min-width:76px}
+.streak b{display:block;font:900 24px/1.1 var(--display)}
+.streak small{color:#16244A}
+.locks{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.lock{flex:1;min-width:130px;border:2px dashed var(--line);border-radius:12px;padding:8px 10px;font-size:12.5px;color:var(--ink-soft);display:flex;gap:8px;align-items:center}
+.lock.on{border-style:solid;border-color:#16244A;background:#FFE3F0;color:#16244A;font-weight:700}
+.lock i{width:22px;height:22px;border-radius:6px;background:var(--line);flex:none}
+.lock.on i{background:#FF5FA8}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#16244A;color:#FFD84D;font:900 16px/1 var(--body);padding:12px 18px;border-radius:99px;z-index:60;animation:pop 1.6s ease forwards}
+@keyframes pop{0%{opacity:0;transform:translate(-50%,10px)}15%{opacity:1;transform:translate(-50%,0)}80%{opacity:1}100%{opacity:0}}
+h1{font-family:var(--body);font-weight:900;font-size:clamp(30px,8vw,40px);line-height:1.15;margin:0;text-wrap:balance}
+h1 .dot{display:inline-block;width:.45em;height:.45em;border-radius:50%;background:var(--sun);margin-left:.15em;vertical-align:.1em;border:2px solid var(--ink)}
+.lede{margin:0;color:var(--ink-soft);font-size:15px}
+
+.picker h2,.shelf h2,.album h2{font-size:13px;letter-spacing:.12em;font-weight:700;margin:0 0 10px;color:var(--ink-soft)}
+.chips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.chip{appearance:none;border:1.5px solid var(--line);background:var(--chip);color:var(--ink);font:700 16px/1 var(--body);
+  padding:13px 6px;border-radius:999px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .15s,background .15s}
+.chip i{width:10px;height:10px;border-radius:50%;background:var(--c)}
+.chip:hover{transform:translateY(-2px)}
+.chip[aria-pressed="true"]{background:var(--c);border-color:var(--c);color:#16244A}
+.chip[aria-pressed="true"] i{background:#16244A}
+.chip:focus-visible,.btn:focus-visible,.card:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
+
+.stage{display:flex;flex-direction:column;align-items:center;gap:14px}
+#slot{width:100%;max-width:360px;display:flex;justify-content:center}
+.card{display:block;width:100%;max-width:360px;aspect-ratio:63/88;perspective:1200px;cursor:pointer}
+.card-in{position:relative;width:100%;height:100%;transition:transform .6s cubic-bezier(.2,.8,.2,1);transform-style:preserve-3d}
+.card.flipped .card-in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border-radius:22px;border:3px solid #16244A;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  box-shadow:6px 6px 0 #16244A;display:flex;flex-direction:column;text-align:left;color:#16244A}
+.front{background:var(--c)}
+.front img{width:100%;aspect-ratio:10/8.6;object-fit:cover;object-position:center 30%;display:block;border-bottom:3px solid #16244A}
+.front .mark{position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:50%;background:#FFFFFF;border:2px solid #16244A;display:flex;align-items:center;justify-content:center}
+.front .mark img{width:20px;height:auto;border:0;aspect-ratio:auto}
+.more{font-size:12.5px;color:#4A5677;margin:0}
+.more a{color:#16244A;font-weight:700}
+.front .txt{background:#FFF6E0;padding:10px 16px 12px;display:flex;flex-direction:column;gap:6px;flex:1;justify-content:center}
+.tag{align-self:flex-start;font:800 12px/1 var(--body);letter-spacing:.1em;background:#16244A;color:#FFF6E0;padding:6px 10px;border-radius:99px}
+.q{font-weight:900;font-size:clamp(20px,5.6vw,24px);line-height:1.35;margin:0;text-wrap:balance}
+.hint{font-size:12px;color:#4A5677}
+.back{background:var(--card-cream);transform:rotateY(180deg);padding:20px 18px 14px;gap:8px;overflow-y:auto}
+.no{font:800 11px/1 var(--display);letter-spacing:.08em;color:#4A5677;margin-left:8px}
+.card.gold .face{border-color:#B8860B;box-shadow:6px 6px 0 #B8860B}
+.card.gold .tag{background:#B8860B}
+.back .band{height:10px;background:var(--c);margin:-20px -20px 4px;border-bottom:3px solid #16244A}
+.lbl{font:800 11px/1 var(--body);letter-spacing:.14em;color:#4A5677}
+.fix{font-weight:700;font-size:16px;line-height:1.5;margin:2px 0 0}
+.psy{font-size:12.5px;line-height:1.55;margin:2px 0 0;color:#2b3658}
+.quote{margin:auto 0 0;padding-top:10px;border-top:2px dashed #16244A33}
+.quote p{margin:0;font-weight:700;font-size:14px;line-height:1.5}
+.quote cite{display:block;font-style:normal;font-size:12px;color:#4A5677;margin-top:4px}
+.cta-line{font-size:12.5px;line-height:1.5;background:#FFFFFF;color:#16244A;border-radius:12px;padding:8px 12px;border:2px solid #16244A}
+.cta-line a{color:#16244A;font-weight:900;text-decoration:underline;text-decoration-color:var(--c);text-decoration-thickness:3px}
+
+.deck{width:100%;max-width:360px;aspect-ratio:63/88;border-radius:22px;border:3px solid #16244A;box-shadow:6px 6px 0 #16244A;
+  background:#FFD84D radial-gradient(circle,#FF5FA8 3px,transparent 3.4px) 0 0/26px 26px;display:flex;align-items:center;justify-content:center}
+.deck span{background:#FFFFFF;color:#16244A;font:900 26px/1.2 var(--body);padding:18px 22px;border-radius:18px;border:3px solid #16244A;text-align:center}
+.deck span small{display:block;font:700 13px/1.4 var(--body);margin-top:6px}
+.shuffle{animation:shuffle .55s ease-in-out}
+@keyframes shuffle{0%,100%{transform:rotate(0)}20%{transform:rotate(-6deg) translateX(-10px)}45%{transform:rotate(5deg) translateX(10px)}70%{transform:rotate(-3deg)}}
+.deal{animation:deal .45s cubic-bezier(.2,.9,.3,1.3)}
+@keyframes deal{from{transform:translateY(30px) scale(.88) rotate(-4deg);opacity:.2}to{transform:none;opacity:1}}
+.row{display:flex;flex-direction:column;gap:10px;align-items:center;width:100%;max-width:360px}
+.btn{appearance:none;width:100%;border:0;border-radius:18px;font:900 19px/1 var(--body);letter-spacing:.08em;padding:19px 24px;cursor:pointer;
+  background:#FF5FA8;color:#FFFFFF;box-shadow:0 6px 0 #C93D80;transition:transform .08s,box-shadow .08s}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 #C93D80}
+.btn.ghost{width:auto;background:transparent;color:var(--ink);font-size:15px;font-weight:700;letter-spacing:.04em;padding:10px 18px;box-shadow:none;border:1.5px solid var(--line);border-radius:999px}
+.btn.ghost:active{transform:none}
+.btn:disabled{background:var(--line);color:var(--ink-soft);box-shadow:none;cursor:not-allowed}
+.left{font-size:14px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.left b{color:var(--ink)}
+.done{width:100%;max-width:360px;background:var(--chip);border:2px solid var(--ink);border-radius:16px;padding:14px 16px;font-size:14px}
+.done a{color:inherit;font-weight:700}
+
+.album .grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.slot{aspect-ratio:63/88;border-radius:8px;border:2px solid var(--line);background:var(--chip);overflow:hidden}
+.slot img{width:100%;height:100%;object-fit:cover;display:block}
+.slot.on{border-color:var(--ink)}
+.album p{margin:8px 0 0;font-size:13px;color:var(--ink-soft)}
+
+.shelf .items{display:flex;flex-direction:column;gap:10px}
+.course{display:flex;flex-direction:column;gap:4px;background:var(--chip);border:2px solid var(--ink);border-radius:16px;padding:14px 16px}
+.course small{font:800 11px/1 var(--body);letter-spacing:.12em;color:var(--ink-soft)}
+.course b{font-size:16px;line-height:1.4}
+.course span{font-size:13.5px;color:var(--ink-soft)}
+.course a{font-weight:700;color:var(--ink)}
+.line{background:#06C755;color:#fff;border-color:#06C755}
+.line a{color:#fff}
+.line small,.line span{color:#e9fff1}
+footer{font-size:12px;color:var(--ink-soft);text-align:center}
+.sub{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.slot.on{cursor:pointer;transition:transform .15s}
+.slot.on:hover{transform:translateY(-3px)}
+.slot.on:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.ov{position:fixed;inset:0;z-index:50;background:rgba(255,216,77,.92);display:flex;align-items:center;justify-content:center;
+  padding:calc(16px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(16px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));overflow-y:auto}
+.ov-in{width:100%;max-width:400px;background:var(--paper);border-radius:22px;padding:16px;display:flex;flex-direction:column;gap:12px;align-items:center;margin:auto}
+.ov-top{width:100%;display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:14px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.x{appearance:none;border:0;background:var(--chip);color:var(--ink);width:36px;height:36px;border-radius:50%;font-size:16px;cursor:pointer}
+.vslot{width:100%;max-width:340px;display:flex;justify-content:center}
+.ov-nav{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.ov-nav .btn.ghost{padding:9px 12px;font-size:14px}
+.simg{width:100%;max-width:300px;border-radius:14px;border:2px solid var(--ink);display:block}
+.tip{margin:0;font-size:13px;color:var(--ink-soft);text-align:center}
+.share-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%}
+.sbtn{appearance:none;display:flex;align-items:center;justify-content:center;text-decoration:none;border:1.5px solid var(--line);background:var(--chip);color:var(--ink);
+  font:700 14px/1 var(--body);padding:13px 4px;border-radius:12px;cursor:pointer}
+.sbtn.ig{background:#FFE3F0;border-color:#FF5FA8}
+.gift{width:100%;display:flex;flex-direction:column;gap:8px;background:var(--chip);border:1.5px solid var(--line);border-radius:14px;padding:12px}
+.gift label{font-size:13px;font-weight:700;color:var(--ink-soft)}
+.gift input{width:100%;font:500 16px/1.4 var(--body);padding:10px 12px;border-radius:10px;border:1.5px solid var(--line);background:#fff;color:#16244A}
+.gift .two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.confirm{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;font-size:14px;font-weight:700}
+.btn.ghost.danger{border-color:#FF5A5F;color:#D33A3F}
+.sbtn:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+@media (prefers-reduced-motion: reduce){.card-in{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <h1>每日元氣卡<span class="dot" aria-hidden="true"></span></h1>
+    <p class="lede">今天卡在哪裡？選一類，抽一張。每天可以抽 3 次。</p>
+  </header>
+
+  <section aria-label="我的等級">
+    <div class="status">
+      <div class="lv"><b id="lvName"></b><div class="bar"><i id="lvBar"></i></div><small id="lvPts"></small></div>
+      <div class="streak"><b id="stN"></b><small>累積天數</small></div>
+    </div>
+    <div class="locks">
+      <div class="lock" id="lock3"><i></i><span>累積 3 天：解鎖限定卡</span></div>
+      <div class="lock" id="lock7"><i></i><span>累積 7 天：解鎖限定卡</span></div>
+    </div>
+  </section>
+
+  <section class="picker" aria-labelledby="pk">
+    <h2 id="pk">今天想抽哪一類</h2>
+    <div class="chips" id="chips"></div>
+  </section>
+
+  <section class="stage" aria-live="polite">
+    <div id="slot"></div>
+    <div class="row">
+      <button class="btn" id="draw" type="button">抽一張</button>
+      <div class="sub" id="sub" hidden>
+        <button class="btn ghost" id="keep" type="button">收進卡冊</button>
+        <button class="btn ghost" id="share" type="button">分享／送朋友</button>
+      </div>
+    </div>
+    <div class="left" id="left"></div>
+    <div class="done" id="done" hidden>今天的 3 張抽完了，明天再來。<br>怕忘記回來？加 LINE 好友，想抽卡時傳「元氣」就會收到抽卡入口：<a href="https://line.me/R/ti/p/@929tyoeu" target="_blank" rel="noopener">@929tyoeu</a></div>
+  </section>
+
+  <section class="album" aria-labelledby="al">
+    <h2 id="al">我的卡冊</h2>
+    <div class="grid" id="grid"></div>
+    <p id="albumNote"></p>
+  </section>
+
+  <section class="shelf" aria-labelledby="sh">
+    <h2 id="sh">想把問題想得更完整</h2>
+    <div class="items">
+      <div class="course">
+        <small>線上課程｜11/01 開賣</small>
+        <b>別急著找答案！善用設計思考，打造你自己的人生藍圖</b>
+        <span>8 集、8 份工作單，陪你把方向畫成一張自己看得懂的藍圖。</span>
+        <a href="https://www.pressplay.cc/link/s/1EBCCDED" target="_blank" rel="noopener">看課程介紹 →</a>
+      </div>
+      <div class="course" id="ad2"></div>
+    </div>
+  </section>
+
+  <footer><a href="../" style="color:inherit;font-weight:700">← 回思考遊樂場</a>　｜　查查創意</footer>
+</div>
+
+<div class="ov" id="viewer" hidden role="dialog" aria-modal="true" aria-label="我的卡冊">
+  <div class="ov-in">
+    <div class="ov-top"><span id="vCount"></span><button class="x" id="vClose" type="button" aria-label="關閉">✕</button></div>
+    <div id="vSlot" class="vslot"></div>
+    <div class="ov-nav">
+      <button class="btn ghost" id="vPrev" type="button">← 上一張</button>
+      <button class="btn ghost" id="vShare" type="button">分享／送朋友</button>
+      <button class="btn ghost" id="vNext" type="button">下一張 →</button>
+    </div>
+    <button class="btn ghost danger" id="vDel" type="button">從卡冊移除</button>
+    <div class="confirm" id="vConfirm" hidden>確定移除這張卡？
+      <button class="btn ghost danger" id="vYes" type="button">移除</button>
+      <button class="btn ghost" id="vNo" type="button">取消</button>
+    </div>
+  </div>
+</div>
+
+<div class="ov" id="sheet" hidden role="dialog" aria-modal="true" aria-label="分享這張卡">
+  <div class="ov-in">
+    <div class="ov-top"><span>分享這張卡</span><button class="x" id="sClose" type="button" aria-label="關閉">✕</button></div>
+    <div class="gift">
+      <label for="gMsg">想送給朋友？寫一句話（會印在卡上，可以不寫）</label>
+      <input id="gMsg" maxlength="30" placeholder="例如：你已經做得很好了，休息一下吧">
+      <div class="two">
+        <div><label for="gTo">給誰</label><input id="gTo" maxlength="8" placeholder="小美"></div>
+        <div><label for="gFrom">你的名字</label><input id="gFrom" maxlength="8" placeholder="阿明"></div>
+      </div>
+    </div>
+    <img id="sImg" class="simg" alt="卡片圖片">
+    <p class="tip">手機：長按圖片就能存到相簿。</p>
+    <div class="share-grid">
+      <button class="sbtn ig" id="sIG" type="button">IG 限動／貼文</button>
+      <button class="sbtn" id="sNative" type="button">分享到…</button>
+      <a class="sbtn" id="sSave" download="每日元氣卡.png">存成圖片</a>
+      <a class="sbtn" id="sLine" target="_blank" rel="noopener">LINE</a>
+      <a class="sbtn" id="sFb" target="_blank" rel="noopener">Facebook</a>
+      <a class="sbtn" id="sTh" target="_blank" rel="noopener">Threads</a>
+      <button class="sbtn" id="sCopy" type="button">複製連結</button>
+      <span></span><span></span>
+    </div>
+    <p class="tip" id="sMsg" aria-live="polite"></p>
+  </div>
+</div>
+
+<script>
+const CATS=[
+  {k:"genki",n:"元氣",c:"var(--t-genki)"},
+  {k:"work",n:"工作",c:"var(--t-work)"},
+  {k:"dir",n:"方向",c:"var(--t-dir)"},
+  {k:"love",n:"感情",c:"var(--t-love)"},
+  {k:"self",n:"自己",c:"var(--t-self)"},
+  {k:"idea",n:"創意",c:"var(--t-idea)"}
+];
+const CARDS=[
+{
+"id": "d1",
+"no": "01",
+"cat": "dir",
+"theme": "找方向",
+"q": "我好像不知道自己想要什麼",
+"fix": "回想最近一次「時間過得特別快」的時刻，寫下你當時在做什麼。方向的線索，常常藏在那裡。",
+"lbl": "心理學小知識",
+"psy": "心理學家契克森米哈伊把這種全神投入、忘了時間的狀態，稱為「心流」。",
+"quote": "現在，就先活在問題裡。也許有一天，你會不知不覺走進答案。",
+"who": "里爾克《給青年詩人的信》，1903",
+"cta": "course1",
+"color": "var(--t-dir)",
+"img": "img/d1.jpg"
+},
+{
+"id": "d2",
+"no": "02",
+"cat": "dir",
+"theme": "找方向",
+"q": "大家好像都知道自己要去哪，只有我還在原地",
+"fix": "把「我要做什麼」換成「我想試試看什麼」。列出 3 件這個月就能小小嘗試的事。",
+"lbl": "心理學小知識",
+"psy": "一項調查 1.9 萬多人的研究發現，每個年齡的人都低估了自己未來十年會改變多少（Quoidbach 等，2013）。現在的方向，本來就會變。",
+"quote": "不是因為事情困難我們才不敢做，是因為我們不敢做，事情才變得困難。",
+"who": "塞內卡《致盧西里烏斯書信》第 104 封",
+"cta": "course1",
+"color": "var(--t-dir)",
+"img": "img/d2.jpg"
+},
+{
+"id": "d3",
+"no": "03",
+"cat": "dir",
+"theme": "選擇困難",
+"q": "兩個選項都想要，怎麼選都怕後悔",
+"fix": "先不比哪個比較好，問自己：「五年後回頭看，我會比較後悔沒試哪一個？」",
+"lbl": "心理學小知識",
+"psy": "研究發現，短期內人比較後悔「做了的事」；時間拉長後，最常後悔的反而是「沒去做的事」（Gilovich & Medvec，1995）。",
+"quote": "我知道就算失敗了，我也不會後悔；唯一可能後悔的，是從來沒有試過。",
+"who": "貝佐斯（Amazon 創辦人），2001 年訪談",
+"cta": "course1",
+"color": "var(--t-dir)",
+"img": "img/d3.jpg"
+},
+{
+"id": "d4",
+"no": "04",
+"cat": "dir",
+"theme": "轉職換跑道",
+"q": "想換跑道，又怕放掉現在的一切",
+"fix": "不用一次跳過去。這個週末先做一個小實驗：約一位做那份工作的人，聊 30 分鐘。",
+"lbl": "研究小知識",
+"psy": "研究職涯轉換的 Herminia Ibarra 教授發現，成功轉換的人多半是先動手做小嘗試，再慢慢確定方向，而不是全部想清楚才行動（2002）。",
+"quote": "如果今天是我人生的最後一天，我還會想做今天要做的事嗎？",
+"who": "賈伯斯（Apple 共同創辦人），2005 年史丹佛畢業演講",
+"more": [
+"〈想轉職但不知道要做什麼？先做三個小實驗〉",
+"https://www.designthinking.com.tw/posts/career-change-small-experiments?utm_source=genki-card&utm_medium=web"
+],
+"cta": "course1",
+"color": "var(--t-dir)",
+"img": "img/d4.jpg"
+},
+{
+"id": "w1",
+"no": "05",
+"cat": "work",
+"theme": "拖延",
+"q": "一直想開始，卻一直沒開始",
+"fix": "把「有空再做」改成「明天早上 9 點，打開檔案寫第一行」。時間、地點、第一個動作，寫得越具體越好。",
+"lbl": "心理學小知識",
+"psy": "心理學稱為「執行意圖」：事先想好什麼時候、在哪裡、做什麼。一份整理 94 項研究的分析發現，它對達成目標有明顯幫助（Gollwitzer & Sheeran，2006）。",
+"quote": "我們一拖再拖，人生就這樣匆匆走過。",
+"who": "塞內卡《致盧西里烏斯書信》第 1 封",
+"color": "var(--t-work)",
+"img": "img/w1.jpg"
+},
+{
+"id": "w2",
+"no": "06",
+"cat": "work",
+"theme": "工作卡關",
+"q": "這個問題我想了好久，還是解不開",
+"fix": "先別急著找答案。把問題換 3 種說法重新寫一次，常常會發現真正要解的，不是原來那個。",
+"lbl": "研究小知識",
+"psy": "一項針對藝術系學生的研究發現，動筆前花更多時間探索「要畫什麼」的學生，作品被評為更有原創性，多年後在藝術界也發展得更好（Getzels & Csikszentmihalyi）。",
+"quote": "問題問得好，就解決了一半。",
+"who": "杜威《邏輯：探究的理論》中引用的一句老話，1938",
+"color": "var(--t-work)",
+"img": "img/w2.jpg"
+},
+{
+"id": "w3",
+"no": "07",
+"cat": "work",
+"theme": "溝通卡卡",
+"q": "我明明講得很清楚，對方還是聽不懂",
+"fix": "說完後，請對方用自己的話說一次「你聽到的是什麼」，落差馬上就看得見。",
+"lbl": "心理學小知識",
+"psy": "史丹佛大學一項研究請人用手指敲出歌曲節奏，敲的人以為一半的歌會被猜中，結果 120 首只被猜中 3 首（Newton，1990）。我們很難想像對方聽到的是什麼。",
+"quote": "說話，一半屬於說的人，一半屬於聽的人。",
+"who": "蒙田《隨筆集》",
+"color": "var(--t-work)",
+"img": "img/w3.jpg"
+},
+{
+"id": "w4",
+"no": "08",
+"cat": "work",
+"theme": "帶人當主管",
+"q": "當了主管，反而不知道怎麼跟以前的同事相處",
+"fix": "每週找一位成員聊 15 分鐘，只問一句：「最近有什麼我可以幫忙的？」然後多聽少說。",
+"lbl": "研究小知識",
+"psy": "哈佛商學院 Amy Edmondson 研究 51 個工作團隊發現，成員覺得「說出問題不會被責怪」的團隊，更常互相學習（1999）。",
+"quote": "人在教別人的時候，自己也在學習。",
+"who": "塞內卡《致盧西里烏斯書信》第 7 封",
+"more": [
+"〈為什麼年輕人不想當主管？〉",
+"https://www.designthinking.com.tw/posts/why-young-people-dont-want-to-be-managers?utm_source=genki-card&utm_medium=web"
+],
+"color": "var(--t-work)",
+"img": "img/w4.jpg"
+},
+{
+"id": "w5",
+"no": "09",
+"cat": "work",
+"theme": "跟 AI 共事",
+"q": "AI 好像什麼都會，那我還有什麼用？",
+"fix": "下次用 AI 之前，先花 3 分鐘自己寫下「我真正想解決的是什麼」，再把這段話交給 AI。",
+"lbl": "研究小知識",
+"psy": "微軟研究院等團隊 2025 年調查 319 位上班族發現，越相信 AI 的人，越少動用自己的批判思考；越相信自己的人，思考得越多。",
+"quote": "光有好頭腦還不夠，最重要的是好好運用它。",
+"who": "笛卡兒《方法論》，1637",
+"more": [
+"Podcast〈你有多久沒有不靠 AI，把一件事從頭做完？〉",
+"https://podcasts.apple.com/tw/podcast/id6819133837"
+],
+"color": "var(--t-work)",
+"img": "img/w5.jpg"
+},
+{
+"id": "g1",
+"no": "10",
+"cat": "genki",
+"theme": "元氣打氣",
+"q": "今天好累，好像什麼都沒做好",
+"fix": "睡前寫下今天 3 件小小的好事，再補一句「為什麼會發生」。一杯好喝的咖啡也算。",
+"lbl": "心理學小知識",
+"psy": "正向心理學研究中，連續一週每晚寫下三件好事的人，之後幾個月的幸福感都比較高（Seligman 等，2005）。",
+"quote": "把這句話寫在心上：每一天，都是一年裡最好的一天。",
+"who": "愛默生《社會與孤獨》，1870",
+"cta": "line",
+"color": "var(--t-genki)",
+"img": "img/g1.jpg"
+},
+{
+"id": "g2",
+"no": "11",
+"cat": "genki",
+"theme": "提不起勁",
+"q": "什麼都不想做，連喜歡的事都提不起勁",
+"fix": "挑一件 5 分鐘就能完成的小事，例如整理桌面一角。小小的完成感，會帶來下一步的力氣。",
+"lbl": "研究小知識",
+"psy": "哈佛商學院分析 238 位上班族約 12,000 篇工作日記發現，最能讓人一整天心情好、有動力的，是在有意義的事上「有一點進展」（Amabile & Kramer，2011）。",
+"quote": "我們得去耕耘自己的花園。",
+"who": "伏爾泰《憨第德》，1759",
+"color": "var(--t-genki)",
+"img": "img/g2.jpg"
+},
+{
+"id": "g3",
+"no": "12",
+"cat": "genki",
+"theme": "壓力好大",
+"q": "事情一件接一件，覺得快喘不過氣",
+"fix": "把腦中所有待辦全部寫到紙上，圈出今天只做的 3 件，其他先放著。",
+"lbl": "心理學小知識",
+"psy": "研究發現，替還沒完成的事寫下具體計畫，腦中就比較不會一直冒出它，也比較能專心做眼前的事（Masicampo & Baumeister，2011）。",
+"quote": "大腦是用來產生想法的，不是用來記住想法的。",
+"who": "David Allen（時間管理作家）",
+"color": "var(--t-genki)",
+"img": "img/g3.jpg"
+},
+{
+"id": "s1",
+"no": "13",
+"cat": "self",
+"theme": "自我懷疑",
+"q": "大家都比我厲害，我是不是不夠好？",
+"fix": "寫下一件你一年前做不到、現在做得到的事。跟過去的自己比，不跟別人比。",
+"lbl": "心理學小知識",
+"psy": "心理學家 Festinger 發現，沒有明確標準時，人會拿別人來衡量自己（1954）。換一個比較的對象，感受就會不一樣。",
+"quote": "相信自己，力量大得驚人。",
+"who": "Sam Altman（OpenAI 執行長）〈How To Be Successful〉",
+"color": "var(--t-self)",
+"img": "img/s1.jpg"
+},
+{
+"id": "s2",
+"no": "14",
+"cat": "self",
+"theme": "自我懷疑",
+"q": "被稱讚時，總覺得自己只是運氣好",
+"fix": "下次被稱讚，先說「謝謝」，再寫下你為這件事做過的 3 個努力。",
+"lbl": "心理學小知識",
+"psy": "心理學家觀察到，很多成就很高的人，仍覺得自己不夠格、是別人高估了自己，稱為「冒牌者現象」（Clance & Imes，1978）。這種感覺很常見，不代表你真的不夠好。",
+"quote": "相信你自己：每一顆心，都隨著那根鐵弦一起震動。",
+"who": "愛默生〈自立〉，1841",
+"color": "var(--t-self)",
+"img": "img/s2.jpg"
+},
+{
+"id": "s3",
+"no": "15",
+"cat": "self",
+"theme": "失敗挫折",
+"q": "搞砸了一件事，一直走不出來",
+"fix": "把「我失敗了」改寫成「這次我學到＿＿，下次我會＿＿」。填完，就先放下。",
+"lbl": "心理學小知識",
+"psy": "研究發現，失敗後用體諒的態度對待自己的人，反而花更多時間準備下一次（Breines & Chen，2012）。",
+"quote": "我祝福你們，經歷足夠多的痛苦與磨難。",
+"who": "黃仁勳（NVIDIA 創辦人），2024 年於史丹佛談韌性",
+"color": "var(--t-self)",
+"img": "img/s3.jpg"
+},
+{
+"id": "l1",
+"no": "16",
+"cat": "love",
+"theme": "伴侶",
+"q": "在一起久了，兩個人好像越來越少說話",
+"fix": "今天問對方一個沒問過的問題，例如「最近有什麼讓你開心的小事？」然後好好聽完。",
+"lbl": "研究小知識",
+"psy": "高特曼研究所追蹤新婚夫妻 6 年發現，仍在一起的伴侶，約 86% 的時候會回應對方想聊天的小訊號；分開的伴侶只有約 33%。",
+"quote": "愛，不是彼此凝視，而是一起望向同一個方向。",
+"who": "聖修伯里《人類的大地》，1939",
+"color": "var(--t-love)",
+"img": "img/l1.jpg"
+},
+{
+"id": "l2",
+"no": "17",
+"cat": "love",
+"theme": "家人",
+"q": "跟家人一講話，就容易吵起來",
+"fix": "先別急著說服對方，試著說一句：「你的意思是……對嗎？」讓對方覺得被聽見。",
+"lbl": "心理學小知識",
+"psy": "研究發現，用自己的話重述對方說的話、再多問一句，比直接給建議更讓對方覺得被理解（Weger 等，2014）。",
+"quote": "先理解別人，再尋求被理解。",
+"who": "史蒂芬・柯維（管理學作家）",
+"color": "var(--t-love)",
+"img": "img/l2.jpg"
+},
+{
+"id": "l3",
+"no": "18",
+"cat": "love",
+"theme": "朋友",
+"q": "長大後，朋友好像越來越少了",
+"fix": "今天傳一則訊息給很久沒聯絡的朋友，只要說：「剛剛想到你。」",
+"lbl": "心理學小知識",
+"psy": "研究發現，人常常低估對方收到問候時有多開心；越久沒聯絡、越意外，對方越高興（Liu 等，2022）。",
+"quote": "朋友，是另一個自己。",
+"who": "亞里斯多德《尼各馬可倫理學》",
+"color": "var(--t-love)",
+"img": "img/l3.jpg"
+},
+{
+"id": "c1",
+"no": "19",
+"cat": "idea",
+"theme": "沒有點子",
+"q": "被要求想點子，腦袋卻一片空白",
+"fix": "先別想好點子。給自己 5 分鐘，寫下 10 個爛點子，好點子常常跟著冒出來。",
+"lbl": "研究小知識",
+"psy": "心理學家 Simonton 研究創作者的一生發現，好作品的數量和作品總數成正比：做得越多，好作品也越多（1997）。",
+"quote": "想出創業點子的方法，就是不要刻意去想創業點子。",
+"who": "Paul Graham（Y Combinator 共同創辦人），2012",
+"color": "var(--t-idea)",
+"img": "img/c1.jpg"
+},
+{
+"id": "c2",
+"no": "20",
+"cat": "idea",
+"theme": "沒有點子",
+"q": "我覺得自己就是沒有創意的人",
+"fix": "挑一樣日常用品，想 3 種它「原本不是拿來做」的用法。創意，常常就是換個角度看。",
+"lbl": "研究小知識",
+"psy": "一份整理 70 項研究的分析顯示，多數研究發現，設計良好的練習能提升創造力（Scott 等，2004）。創意是可以練的。",
+"quote": "一個什麼都想學的人，長期下來一定會勝過一個什麼都懂的人。",
+"who": "納德拉（微軟執行長），2016 年受訪",
+"more": [
+"Podcast EP01〈我就是沒有創意，才來上課的〉",
+"https://youtu.be/Eq2l1OfBLmw"
+],
+"color": "var(--t-idea)",
+"img": "img/c2.jpg"
+},
+{
+"id": "c3",
+"no": "21",
+"cat": "idea",
+"theme": "開會沒點子",
+"q": "開會討論，大家都不說話",
+"fix": "先讓每個人安靜寫 3 分鐘點子，再輪流分享。比一開始就討論，更容易冒出新想法。",
+"lbl": "研究小知識",
+"psy": "研究發現，先各自發想再合併的團體，想出的點子比一起討論的團體更多，因為一次只能有一個人說話（Diehl & Stroebe，1987）。",
+"quote": "每次開會一開始，我們先安靜地讀完備忘錄，就像上自習課。",
+"who": "貝佐斯，2017 年致股東信",
+"color": "var(--t-idea)",
+"img": "img/c3.jpg"
+},
+{
+"id": "L3",
+"no": "限定 01",
+"cat": "gold",
+"theme": "累積 3 天限定",
+"q": "你已經回來 3 天了！",
+"fix": "想讓好習慣留下來，就把它接在每天本來就會做的事後面，例如「刷完牙，寫一句今天的心情」。",
+"lbl": "研究小知識",
+"psy": "一項研究追蹤 96 人養成新習慣，平均要兩個多月才會變得自然而然，而且因人而異（Lally 等，2010）。慢慢來，你已經在路上了。",
+"quote": "當一件事夠重要，就算勝算不在你這邊，你還是會去做。",
+"who": "馬斯克（SpaceX 創辦人），2012 年 CBS 專訪",
+"need": 3,
+"color": "var(--t-gold)",
+"img": "img/lim3.jpg"
+},
+{
+"id": "L7",
+"no": "限定 02",
+"cat": "gold",
+"theme": "累積 7 天限定",
+"q": "這一週，你最有元氣的是哪一刻？",
+"fix": "寫下這 7 天最有元氣的一刻：當時在做什麼、和誰在一起。那就是你下週可以多安排的事。",
+"lbl": "心理學小知識",
+"psy": "研究發現，花時間回味美好的回憶，能讓人在接下來的日子裡更常感到快樂（Bryant 等，2005）。",
+"quote": "你無法往前看著把點連起來，只能回頭看時，才連得起來。",
+"who": "賈伯斯，2005 年史丹佛畢業演講",
+"need": 7,
+"color": "var(--t-gold)",
+"img": "img/lim7.jpg"
+}
+];
+const CTA={course1:'想一步步畫出自己的方向？<a href="https://www.pressplay.cc/link/s/1EBCCDED" target="_blank" rel="noopener">線上課《別急著找答案！》</a>',line:'想抽卡時傳「元氣」給我們：<a href="https://line.me/R/ti/p/@929tyoeu" target="_blank" rel="noopener">加 LINE @929tyoeu</a>'};
+const DRAWABLE=CARDS.filter(c=>c.cat!=="gold");
+const LIMIT=3;
+const today=()=>{const d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()};
+function load(k,f){try{const v=localStorage.getItem(k);return v?JSON.parse(v):f}catch(e){return f}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+let st=load("genki-state",{day:today(),used:0});
+if(st.day!==today())st={day:today(),used:0};
+let album=load("genki-album",[]);
+let cat="dir", current=null;
+
+const $=id=>document.getElementById(id);
+const LEVELS=[[0,"元氣新手"],[100,"元氣見習生"],[300,"元氣收藏家"],[700,"元氣達人"],[1500,"元氣大師"]];
+const ymd=d=>d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+let pl=load("genki-player",{pts:0,days:0,last:"",shareDay:""});if(pl.days==null)pl.days=pl.streak||0;
+(function(){const t=today(),y=new Date();y.setDate(y.getDate()-1);
+  if(pl.last!==t){pl.days++;pl.last=t;save("genki-player",pl)}})();
+function track(name,p){try{if(window.gtag)gtag("event",name,Object.assign({page_name:"genki_card"},p||{}))}catch(e){}}
+function unlocks(){
+  CARDS.filter(c=>c.need&&pl.days>=c.need&&!album.includes(c.id)).forEach(c=>{
+    album.push(c.id);save("genki-album",album);toast(`解鎖限定卡：${c.theme}！已放進卡冊`);track("card_unlock",{card_id:c.id});
+  });
+}
+function toast(m){const d=document.createElement("div");d.className="toast";d.textContent=m;document.body.appendChild(d);setTimeout(()=>d.remove(),1700)}
+function addPts(n,why){pl.pts+=n;save("genki-player",pl);renderPlayer();toast(`+${n} 分｜${why}`)}
+function renderPlayer(){
+  let i=0;while(i<LEVELS.length-1&&pl.pts>=LEVELS[i+1][0])i++;
+  const cur=LEVELS[i],nxt=LEVELS[i+1];
+  $("lvName").textContent=`Lv${i+1} ${cur[1]}`;
+  $("lvBar").style.width=nxt?Math.round((pl.pts-cur[0])/(nxt[0]-cur[0])*100)+"%":"100%";
+  $("lvPts").textContent=nxt?`${pl.pts} 分・再 ${nxt[0]-pl.pts} 分升到 ${nxt[1]}`:`${pl.pts} 分・最高等級`;
+  $("stN").textContent=pl.days;
+  $("lock3").classList.toggle("on",pl.days>=3);$("lock7").classList.toggle("on",pl.days>=7);
+}
+function chips(){
+  $("chips").innerHTML="";
+  CATS.forEach(c=>{
+    const b=document.createElement("button");
+    b.className="chip";b.type="button";b.style.setProperty("--c",c.c);
+    b.setAttribute("aria-pressed",String(c.k===cat));
+    b.innerHTML="<i></i>"+c.n;
+    b.onclick=()=>{cat=c.k;chips()};
+    $("chips").appendChild(b);
+  });
+}
+const HEX={dir:"#3FA9F5",work:"#FF5A5F",genki:"#FF5FA8",love:"#2EC27E",self:"#9B6BFF",idea:"#E8C300",gold:"#F6C343"};
+const SITE_URL="https://designthinking-powwow.github.io/playground/genki/"; /* 官網元氣卡頁面建好後，換成官網網址 */
+function cardHTML(x,id){
+  return `<div class="card${x.cat==="gold"?" gold":""}" id="${id}" role="button" tabindex="0" aria-label="翻面看小解法" style="--c:${x.color}">
+  <div class="card-in">
+    <div class="face front">
+      <img src="${x.img}" alt="${x.theme}插畫"><span class="mark"><img src="img/logo.png" alt="查查創意"></span>
+      <div class="txt"><span><span class="tag">${x.theme}</span><span class="no">No.${x.no}</span></span><p class="q">${x.q}</p><span class="hint">點卡片翻面，看小解法</span></div>
+    </div>
+    <div class="face back">
+      <div class="band"></div>
+      <span class="lbl">小解法</span>
+      <p class="fix">${x.fix}</p>
+      <span class="lbl">${x.lbl}</span>
+      <p class="psy">${x.psy}</p>
+      <div class="quote"><p>「${x.quote}」</p><cite>— ${x.who}</cite></div>
+      ${x.more?`<p class="more">延伸閱讀：<a href="${x.more[1]}" target="_blank" rel="noopener">${x.more[0]}</a></p>`:""}
+      ${x.cta?`<div class="cta-line">${CTA[x.cta]}</div>`:""}
+    </div>
+  </div></div>`;
+}
+const ADS=[
+  {s:"Podcast｜每週更新",b:"《別急著找答案｜跟 Cha Cha 一起思考》",p:"通勤、散步時聽一集，一次想清楚一件事。",
+   l:[["Apple Podcasts","https://podcasts.apple.com/tw/podcast/id6819133837"],["Spotify","https://open.spotify.com/show/6G9ORPWiRvZEcRvT6Uax8y"]]},
+  {s:"部落格｜每天更新",b:"工作與人生的問題，一篇一題拆開來看",p:"轉職、帶人、拖延、想不出點子，用設計思考找下一步。",
+   l:[["去部落格看看","https://www.designthinking.com.tw/blog"]]},
+  {s:"LINE 官方帳號",b:"加好友，想抽卡就傳「元氣」",p:"不用記網址，在 LINE 裡就能回來抽卡。",
+   l:[["加 LINE @929tyoeu","https://line.me/R/ti/p/@929tyoeu"]],line:true}
+];
+function showAd(){
+  const a=ADS[Math.floor(Math.random()*ADS.length)],el=$("ad2");
+  el.className="course"+(a.line?" line":"");
+  el.innerHTML=`<small>${a.s}</small><b>${a.b}</b><span>${a.p}</span>`+a.l.map(([n,u])=>`<a href="${u}" target="_blank" rel="noopener">${n} →</a>`).join("");
+}
+function bindFlip(c){
+  c.onclick=e=>{const a=e.target.closest("a");if(a){track("card_link",{url:a.href});return}c.classList.toggle("flipped");if(c.classList.contains("flipped"))track("card_flip",{card_id:(current||{}).id})};
+  c.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();c.classList.toggle("flipped")}};
+}
+function render(){
+  const left=LIMIT-st.used;
+  $("left").innerHTML=`今天還可以抽 <b>${left}</b> 次`;
+  $("draw").disabled=left<=0;
+  $("done").hidden=left>0;
+  if(current){
+    $("slot").innerHTML=cardHTML(current,"card");bindFlip($("card"));
+    $("sub").hidden=false;
+    const have=album.includes(current.id);
+    $("keep").textContent=have?"已收進卡冊":"收進卡冊";$("keep").disabled=have;
+  }else{
+    $("slot").innerHTML=`<div class="deck" id="deck"><span>每日元氣卡<small>選好類別，按下面的按鈕</small></span></div>`;
+    $("sub").hidden=true;
+  }
+  $("grid").innerHTML="";
+  const n=Math.max(12,Math.ceil(album.length/6)*6);
+  for(let i=0;i<n;i++){
+    const x=CARDS.find(c=>c.id===album[i]);
+    const d=document.createElement(x?"button":"div");d.className="slot"+(x?" on":"");
+    if(x){d.type="button";d.setAttribute("aria-label","打開 "+x.theme);d.innerHTML=`<img src="${x.img}" alt="">`;d.onclick=()=>openViewer(i)}
+    $("grid").appendChild(d);
+  }
+  $("albumNote").textContent=album.length?`已收集 ${album.length} 張，點卡片可以重看、分享`:"抽到喜歡的卡，按「收進卡冊」，之後隨時回來看";
+}
+let busy=false,last=null;
+$("draw").onclick=()=>{
+  if(st.used>=LIMIT||busy)return;
+  busy=true;$("draw").disabled=true;
+  current=null;render();
+  $("deck").classList.add("shuffle");
+  setTimeout(()=>{
+    let pool=DRAWABLE.filter(c=>c.cat===cat&&c!==last);
+    if(!pool.length)pool=DRAWABLE.filter(c=>c!==last);
+    current=pool[Math.floor(Math.random()*pool.length)];last=current;
+    st.used++;save("genki-state",st);render();
+    $("card").classList.add("deal");busy=false;addPts(10,"抽卡");track("card_draw",{card_id:current.id,card_cat:current.cat});
+  },560);
+};
+$("keep").onclick=()=>{if(current&&!album.includes(current.id)){album.push(current.id);save("genki-album",album);render();addPts(5,"收進卡冊");track("card_keep",{card_id:current.id,card_cat:current.cat})}};
+$("share").onclick=()=>current&&openShare(current);
+
+/* 卡冊瀏覽 */
+let vi=0;
+function showViewer(){
+  $("vConfirm").hidden=true;$("vDel").hidden=false;
+  if(!album.length){$("viewer").hidden=true;return}
+  if(vi>album.length-1)vi=album.length-1;
+  const x=CARDS.find(c=>c.id===album[vi]);
+  $("vSlot").innerHTML=cardHTML(x,"vcard");bindFlip($("vcard"));
+  $("vCount").textContent=`我的卡冊 ${vi+1} / ${album.length}`;
+  $("vPrev").disabled=vi===0;$("vNext").disabled=vi===album.length-1;
+}
+function openViewer(i){vi=i;showViewer();$("viewer").hidden=false;$("vClose").focus()}
+$("vPrev").onclick=()=>{if(vi>0){vi--;showViewer()}};
+$("vNext").onclick=()=>{if(vi<album.length-1){vi++;showViewer()}};
+$("vClose").onclick=()=>$("viewer").hidden=true;
+$("vDel").onclick=()=>{$("vDel").hidden=true;$("vConfirm").hidden=false};
+$("vNo").onclick=()=>{$("vConfirm").hidden=true;$("vDel").hidden=false};
+$("vYes").onclick=()=>{track("card_delete",{card_id:album[vi]});album.splice(vi,1);save("genki-album",album);render();showViewer()};
+$("vShare").onclick=()=>openShare(CARDS.find(c=>c.id===album[vi]));
+
+/* 分享：把卡片畫成一張 1080×1350 的圖 */
+function wrapLines(ctx,text,maxW){
+  const out=[];let line="";
+  const noStart="，。、」』）！？：；";
+  for(const ch of text){const t=line+ch;if(ctx.measureText(t).width>maxW&&line&&!noStart.includes(ch)){out.push(line);line=ch}else line=t}
+  if(line)out.push(line);return out;
+}
+function loadImg(src){return new Promise((ok,no)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=no;i.src=src})}
+async function cardImage(x,gift){
+  try{await document.fonts.ready}catch(e){}
+  const W=1080,H=1350,cv=document.createElement("canvas");cv.width=W;cv.height=H;
+  const g=cv.getContext("2d"),F='"Noto Sans TC","PingFang TC",sans-serif',col=HEX[x.cat]||"#3FA9F5";
+  g.fillStyle=col;g.fillRect(0,0,W,H);
+  const im=await loadImg(x.img),s=im.naturalWidth/W;
+  g.drawImage(im,0,90*s,W*s,670*s,0,0,W,670);
+  if(gift&&gift.msg){
+    g.font=`700 38px ${F}`;const ls=wrapLines(g,gift.msg,560).slice(0,3);
+    const bh=(gift.from?132:74)+ls.length*52,top=640-bh;
+    g.fillStyle="#FFFFFF";g.strokeStyle="#16244A";g.lineWidth=5;g.beginPath();g.roundRect(40,top,620,bh,28);g.fill();g.stroke();
+    g.fillStyle="#16244A";g.font=`900 30px ${F}`;g.fillText(gift.to?`給 ${gift.to}`:"給你",72,top+48);
+    g.font=`700 38px ${F}`;let gy=top+102;for(const l of ls){g.fillText(l,72,gy);gy+=52}
+    if(gift.from){g.font=`500 26px ${F}`;g.fillStyle="#4A5677";g.fillText(`— ${gift.from}`,72,gy+4)}
+  }
+  g.fillStyle="#16244A";g.fillRect(0,668,W,6);
+  g.fillStyle="#FFF6E0";g.fillRect(0,674,W,H-674);
+  let y=740;
+  g.fillStyle="#16244A";g.beginPath();g.roundRect(64,y-46,x.theme.length*34+56,60,30);g.fill();
+  g.fillStyle="#FFF6E0";g.font=`900 32px ${F}`;g.fillText(x.theme,92,y-6);
+  y+=70;g.fillStyle="#16244A";g.font=`900 58px ${F}`;
+  for(const l of wrapLines(g,x.q,W-128)){g.fillText(l,64,y);y+=74}
+  y+=10;g.font=`700 36px ${F}`;g.fillStyle="#16244A";
+  for(const l of wrapLines(g,x.fix,W-128).slice(0,4)){g.fillText(l,64,y);y+=52}
+  y+=24;g.strokeStyle="#16244A55";g.setLineDash([10,10]);g.lineWidth=3;g.beginPath();g.moveTo(64,y);g.lineTo(W-64,y);g.stroke();g.setLineDash([]);
+  y+=56;g.font=`700 34px ${F}`;
+  for(const l of wrapLines(g,"「"+x.quote+"」",W-128).slice(0,3)){g.fillText(l,64,y);y+=48}
+  g.font=`500 26px ${F}`;g.fillStyle="#4A5677";g.fillText("— "+x.who,64,y+6);
+  g.fillStyle=col;g.fillRect(0,H-86,W,86);
+  try{const lg=await loadImg("img/logo.png");g.fillStyle="#FFFFFF";g.beginPath();g.arc(92,H-43,34,0,Math.PI*2);g.fill();g.drawImage(lg,70,H-68,44,49)}catch(e){}
+  g.fillStyle="#16244A";g.font=`900 30px ${F}`;g.fillText("每日元氣卡｜查查創意",142,H-32);
+  g.font=`700 24px ${F}`;g.textAlign="right";g.fillText("designthinking.com.tw",W-64,H-34);g.textAlign="left";
+  return new Promise(ok=>cv.toBlob(ok,"image/png"));
+}
+let shareBlob=null,shareUrl=null;
+let shareCard=null,gt=null;
+async function makeShareImage(){
+  const gift={msg:$("gMsg").value.trim(),to:$("gTo").value.trim(),from:$("gFrom").value.trim()};
+  try{
+    shareBlob=await cardImage(shareCard,gift);
+    if(shareUrl)URL.revokeObjectURL(shareUrl);shareUrl=URL.createObjectURL(shareBlob);
+    $("sImg").src=shareUrl;$("sSave").href=shareUrl;
+  }catch(e){$("sMsg").textContent="圖片產生失敗，請再試一次"}
+}
+["gMsg","gTo","gFrom"].forEach(id=>$(id).addEventListener("input",()=>{clearTimeout(gt);gt=setTimeout(makeShareImage,350)}));
+async function nativeShare(text){
+  const f=shareBlob&&new File([shareBlob],"每日元氣卡.png",{type:"image/png"});
+  try{
+    if(f&&navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],text});return true}
+  }catch(e){if(e&&e.name==="AbortError")return true}
+  return false;
+}
+async function openShare(x){
+  shareCard=x;track("card_share_open",{card_id:x.id,card_cat:x.cat});
+  if(pl.shareDay!==today()){pl.shareDay=today();addPts(20,"今天第一次分享")}
+  $("sMsg").textContent="";$("sheet").hidden=false;$("sClose").focus();
+  const text=`我抽到一張「${x.theme}」元氣卡：${x.q}。你今天想抽哪一張？`;
+  const u=encodeURIComponent(SITE_URL),t=encodeURIComponent(text);
+  $("sLine").href=`https://social-plugins.line.me/lineit/share?url=${u}&text=${t}`;
+  $("sFb").href=`https://www.facebook.com/sharer/sharer.php?u=${u}`;
+  $("sTh").href=`https://www.threads.net/intent/post?text=${t}%20${u}`;
+  $("sCopy").onclick=async()=>{try{await navigator.clipboard.writeText(SITE_URL);$("sMsg").textContent="已複製連結"}catch(e){$("sMsg").textContent="請手動複製："+SITE_URL}};
+  await makeShareImage();
+  ["sLine","sFb","sTh","sSave"].forEach(id=>$(id).onclick=()=>track("card_share",{card_id:x.id,method:id.slice(1).toLowerCase(),gift:!!$("gMsg").value.trim()}));
+  $("sIG").onclick=async()=>{track("card_share",{card_id:x.id,method:"ig",gift:!!$("gMsg").value.trim()});
+    if(!(await nativeShare(text)))$("sMsg").textContent="IG 不能從網頁直接發：先長按圖片存到相簿，再打開 IG 發限動或貼文。";
+  };
+  $("sNative").onclick=async()=>{
+    const f=shareBlob&&new File([shareBlob],"每日元氣卡.png",{type:"image/png"});
+    try{
+      if(f&&navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],text,url:SITE_URL})}
+      else if(navigator.share){await navigator.share({text,url:SITE_URL})}
+      else $("sMsg").textContent="這個瀏覽器不支援直接分享，可以長按圖片存下來再分享";
+    }catch(e){$("sMsg").textContent="這裡不支援直接分享，可以長按圖片存下來再分享"}
+  };
+}
+$("sClose").onclick=()=>$("sheet").hidden=true;
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("sheet").hidden=true;$("viewer").hidden=true}});
+unlocks();chips();
+render();showAd();renderPlayer();
+</script>
+</body>
+</html>
