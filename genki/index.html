@@ -8,6 +8,7 @@
 <meta property="og:description" content="選一類，抽一張。每天 3 次，收進你的卡冊。">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y0VX6H9PVX"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-Y0VX6H9PVX');</script>
+<link rel="icon" href="img/logo.png">
 <title>每日元氣卡</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -104,6 +105,7 @@ h1 .dot{display:inline-block;width:.45em;height:.45em;border-radius:50%;backgrou
 .quote p{margin:0;font-weight:700;font-size:14px;line-height:1.5}
 .quote cite{display:block;font-style:normal;font-size:12px;color:#4A5677;margin-top:4px}
 .cta-line{font-size:12.5px;line-height:1.5;background:#FFFFFF;color:#16244A;border-radius:12px;padding:8px 12px;border:2px solid #16244A}
+@media (max-width:350px){.back{padding:16px 14px 10px;gap:5px}.back .band{margin:-16px -16px 2px}.fix{font-size:15px;line-height:1.45}.psy,.more,.cta-line{font-size:12px;line-height:1.45}.cta-line{padding:6px 10px}.quote p{font-size:13px}}
 .cta-line a{color:#16244A;font-weight:900;text-decoration:underline;text-decoration-color:var(--c);text-decoration-thickness:3px}
 
 .deck{width:100%;max-width:360px;aspect-ratio:63/88;border-radius:22px;border:3px solid #16244A;box-shadow:6px 6px 0 #16244A;
@@ -639,6 +641,7 @@ function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
 let st=load("genki-state",{day:today(),used:0});
 if(st.day!==today())st={day:today(),used:0};
 let album=load("genki-album",[]);
+let kept=load("genki-kept",album.slice());
 let cat="dir", current=null;
 
 const $=id=>document.getElementById(id);
@@ -751,7 +754,7 @@ $("draw").onclick=()=>{
     $("card").classList.add("deal");busy=false;addPts(10,"抽卡");track("card_draw",{card_id:current.id,card_cat:current.cat});
   },560);
 };
-$("keep").onclick=()=>{if(current&&!album.includes(current.id)){album.push(current.id);save("genki-album",album);render();addPts(5,"收進卡冊");track("card_keep",{card_id:current.id,card_cat:current.cat})}};
+$("keep").onclick=()=>{if(current&&!album.includes(current.id)){album.push(current.id);save("genki-album",album);render();if(!kept.includes(current.id)){kept.push(current.id);save("genki-kept",kept);addPts(5,"收進卡冊")}else toast("已放回卡冊");track("card_keep",{card_id:current.id,card_cat:current.cat})}};
 $("share").onclick=()=>current&&openShare(current);
 
 /* 卡冊瀏覽 */
@@ -778,7 +781,7 @@ $("vShare").onclick=()=>openShare(CARDS.find(c=>c.id===album[vi]));
 function wrapLines(ctx,text,maxW){
   const out=[];let line="";
   const noStart="，。、」』）！？：；";
-  for(const ch of text){const t=line+ch;if(ctx.measureText(t).width>maxW&&line&&!noStart.includes(ch)){out.push(line);line=ch}else line=t}
+  for(const ch of text){const t=line+ch;if(ctx.measureText(t).width>maxW&&line){if(noStart.includes(ch)&&line.length>1){out.push(line.slice(0,-1));line=line.slice(-1)+ch}else if(noStart.includes(ch))line=t;else{out.push(line);line=ch}}else line=t}
   if(line)out.push(line);return out;
 }
 function loadImg(src){return new Promise((ok,no)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=no;i.src=src})}
