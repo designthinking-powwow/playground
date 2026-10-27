@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="img/logo.png">
 <title>思考遊樂場｜查查創意</title>
-<meta name="description" content="用玩的，想清楚一點。每日元氣卡、夢遊扭蛋島，查查創意的思考小遊戲。">
+<meta name="description" content="用玩的，想清楚一點。卡關測驗、煩惱改寫卡、找人聊 15 分鐘、每日元氣卡，查查創意的思考小遊戲。">
 <meta property="og:title" content="思考遊樂場｜查查創意">
 <meta property="og:description" content="用玩的，想清楚一點。">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y0VX6H9PVX"></script>
@@ -38,6 +39,9 @@ a.game:focus-visible{outline:3px solid var(--sun);outline-offset:4px}
 .genki .art{background:#FF5FA8 radial-gradient(circle,#FFD84D 3px,transparent 3.4px) 0 0/24px 24px;align-items:center}
 .genki .art img{height:170px;width:170px;object-fit:cover;border-radius:18px;border:3px solid var(--ink)}
 .island .art{background:var(--night)}
+.trio .art{background:#1F4FD8;align-items:center}
+.trio .art img{height:170px;width:170px;object-fit:cover;border-radius:18px;border:3px solid var(--ink);background:#fff}
+.trio .go{background:#1F4FD8;box-shadow:0 5px 0 #14369A}
 .island .art img{height:180px;width:auto;object-fit:cover}
 .info{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px}
 .meta{display:flex;gap:6px;flex-wrap:wrap}
@@ -58,6 +62,36 @@ footer a{color:var(--ink);font-weight:700}
     <h1>思考<span>遊樂場</span></h1>
     <p class="lede">用玩的，想清楚一點。挑一個今天想玩的遊戲。</p>
   </header>
+
+  <a class="game trio" href="check/" data-game="check">
+    <div class="art"><img src="check/char_pick.jpg" alt="看著菜單猶豫的人物插畫"></div>
+    <div class="info">
+      <div class="meta"><span class="pill">12 題</span><span class="pill">兩分鐘</span><span class="pill">免註冊</span></div>
+      <h2>你是哪一種卡住的人？</h2>
+      <p>12 題，當場告訴你卡在哪一型：看不清現在、方向還沒定、卡在第一步、怕選錯，還是目前走得很順。</p>
+      <span class="go">開始測 →</span>
+    </div>
+  </a>
+
+  <a class="game trio" href="rewrite/" data-game="rewrite" data-open="2026-10-29">
+    <div class="art"><img src="check/char_see.jpg" alt="看著月曆思考的人物插畫"></div>
+    <div class="info">
+      <div class="meta"><span class="pill">一句話</span><span class="pill">一分鐘</span><span class="pill">免註冊</span></div>
+      <h2>煩惱改寫卡</h2>
+      <p>打一句最近卡住的事，馬上改寫成 5 個今天就能動手的問題。</p>
+      <span class="go">去改寫 →</span>
+    </div>
+  </a>
+
+  <a class="game trio" href="talk/" data-game="talk" data-open="2026-10-30">
+    <div class="art"><img src="check/char_smooth.jpg" alt="微笑的人物插畫"></div>
+    <div class="info">
+      <div class="meta"><span class="pill">一鍵複製</span><span class="pill">15 分鐘</span><span class="pill">免註冊</span></div>
+      <h2>找人聊 15 分鐘</h2>
+      <p>想找人聊聊卻不知道怎麼開口？選對象和話題，拿到不尷尬的邀約訊息、6 個好問題和聊完筆記。</p>
+      <span class="go">去準備 →</span>
+    </div>
+  </a>
 
   <a class="game genki" href="genki/" data-game="genki">
     <div class="art"><img src="img/genki.jpg" alt="每日元氣卡插畫"></div>
@@ -82,6 +116,16 @@ footer a{color:var(--ink);font-weight:700}
   <footer>查查創意｜Cha Cha　·　<a href="https://www.designthinking.com.tw/" target="_blank" rel="noopener">回官網</a></footer>
 </div>
 <script>
+// 依台北日期開放：還沒到的遊戲先顯示「X/X 開放」
+(function(){
+  const t = new Date(Date.now() + 8*3600e3).toISOString().slice(0,10);
+  document.querySelectorAll("a.game[data-open]").forEach(a=>{
+    if(t >= a.dataset.open) return;
+    const d = a.dataset.open.slice(5).replace("-","/").replace(/^0/,"");
+    a.classList.add("soon"); a.removeAttribute("href"); a.setAttribute("aria-disabled","true");
+    a.querySelector(".go").textContent = d + " 開放";
+  });
+})();
 document.querySelectorAll("a.game").forEach(a=>a.addEventListener("click",()=>{try{gtag("event","playground_click",{game:a.dataset.game})}catch(e){}}));
 </script>
 </body>
