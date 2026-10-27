@@ -40,8 +40,9 @@ if(!window.TEST){
 
 <style>
 :root{
-  --bg:#F6F4EF; --card:#FFFFFF; --ink:#16181D; --muted:#5B6070; --line:#E3E0D8;
-  --accent:#1F4FD8; --accent-soft:#E6ECFB; --ok:#2BB673;
+  /* 10/27 配色跟官網同一套（米白底、官網主色），少用黑色 */
+  --bg:#FFF8F3; --card:#FFFFFF; --ink:#0F0E0E; --muted:#5C5552; --line:#E9E2DC;
+  --accent:#00A86B; --accent-soft:#E9F7F1; --ok:#2BB673;
 }
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -90,7 +91,7 @@ label.field small{color:var(--muted);font-weight:400}
 .hint{font-size:13px;color:var(--muted);margin:8px 0 0}
 @keyframes rise{to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.part{animation-duration:.01s}}
-.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:14px;padding:10px 16px;border-radius:999px;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:14px;padding:10px 16px;border-radius:999px;opacity:0;transition:opacity .2s;pointer-events:none}
 .toast.show{opacity:1}
 
 /* games strip */
@@ -102,7 +103,7 @@ label.field small{color:var(--muted);font-weight:400}
 .game.locked{pointer-events:none;background:#F1EFEA;border-style:dashed}
 .game.locked .t{color:var(--muted)}
 .game.locked .n{background:#8A8F9C}
-.game.locked .badge{background:#16181D;color:#fff;border-radius:999px;padding:3px 10px}
+.game.locked .badge{background:var(--muted);color:#fff;border-radius:999px;padding:3px 10px}
 .game .badge{margin-left:auto;font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap}
 .game.current{border-color:var(--accent)}
 .game.current .badge{color:var(--accent)}

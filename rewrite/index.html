@@ -40,8 +40,9 @@ if(!window.TEST){
 
 <style>
 :root{
-  --bg:#F6F4EF; --card:#FFFFFF; --ink:#16181D; --muted:#5B6070; --line:#E3E0D8;
-  --accent:#1F4FD8; --accent-soft:#E6ECFB; --ok:#2BB673;
+  /* 10/27 配色跟官網同一套（米白底、官網主色），少用黑色 */
+  --bg:#FFF8F3; --card:#FFFFFF; --ink:#0F0E0E; --muted:#5C5552; --line:#E9E2DC;
+  --accent:#1F4BFF; --accent-soft:#EEF2FF; --ok:#2BB673;
 }
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -90,19 +91,19 @@ textarea:focus{outline:none;border-color:var(--accent)}
 @keyframes rise{to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.q{animation-duration:.01s}}
 .tip{font-size:14px;color:var(--muted);margin:14px 0 4px}
-.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:14px;padding:10px 16px;border-radius:999px;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:14px;padding:10px 16px;border-radius:999px;opacity:0;transition:opacity .2s;pointer-events:none}
 .toast.show{opacity:1}
 
 /* 存圖用的卡片（畫面外） */
-#shot{position:fixed;left:-99999px;top:0;width:1080px;height:1350px;background:#F6F4EF;font-family:Inter,"Noto Sans TC",sans-serif;color:#16181D;padding:72px 80px;box-sizing:border-box;display:flex;flex-direction:column}
+#shot{position:fixed;left:-99999px;top:0;width:1080px;height:1350px;background:#FFF8F3;font-family:Inter,"Noto Sans TC",sans-serif;color:#16181D;padding:72px 80px;box-sizing:border-box;display:flex;flex-direction:column}
 #shot .top{display:flex;justify-content:space-between;align-items:center}
 #shot .top img{height:58px}
-#shot .top span{font-size:26px;font-weight:700;color:#1F4FD8;letter-spacing:.06em}
+#shot .top span{font-size:26px;font-weight:700;color:#1F4BFF;letter-spacing:.06em}
 #shot h4{font-size:30px;color:#5B6070;font-weight:700;margin:56px 0 8px}
 #shot .w{font-size:44px;font-weight:900;line-height:1.35;margin-bottom:36px;word-break:break-word}
 #shot ol{margin:0;padding:0;list-style:none;display:grid;gap:20px}
 #shot li{background:#fff;border:2px solid #E3E0D8;border-radius:20px;padding:20px 26px;font-size:27px;line-height:1.5;font-weight:500}
-#shot li b{display:block;color:#1F4FD8;font-size:22px;font-weight:700;margin-bottom:2px}
+#shot li b{display:block;color:#1F4BFF;font-size:22px;font-weight:700;margin-bottom:2px}
 #shot .foot{margin-top:auto;font-size:24px;color:#5B6070;display:flex;justify-content:space-between}
 
 /* games strip */
@@ -114,7 +115,7 @@ textarea:focus{outline:none;border-color:var(--accent)}
 .game.locked{pointer-events:none;background:#F1EFEA;border-style:dashed}
 .game.locked .t{color:var(--muted)}
 .game.locked .n{background:#8A8F9C}
-.game.locked .badge{background:#16181D;color:#fff;border-radius:999px;padding:3px 10px}
+.game.locked .badge{background:var(--muted);color:#fff;border-radius:999px;padding:3px 10px}
 .game .badge{margin-left:auto;font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap}
 .game.current{border-color:var(--accent)}
 .game.current .badge{color:var(--accent)}
@@ -308,7 +309,7 @@ $('save').onclick = async () => {
   const shot = $('shot'); let fs = 27; shot.querySelectorAll('li').forEach(li => li.style.fontSize = fs+'px');
   while(shot.scrollHeight > 1350 && fs > 20){ fs--; shot.querySelectorAll('li').forEach(li => li.style.fontSize = fs+'px'); }
   try{
-    const c = await html2canvas(shot, {width:1080, height:1350, scale:1, backgroundColor:'#F6F4EF', useCORS:true, windowWidth:1080});
+    const c = await html2canvas(shot, {width:1080, height:1350, scale:1, backgroundColor:'#FFF8F3', useCORS:true, windowWidth:1080});
     const a = document.createElement('a'); a.download = '煩惱改寫卡.png'; a.href = c.toDataURL('image/png'); a.click();
     toast('圖片已下載');
   }catch(e){ toast('存圖失敗，可以改用截圖'); }

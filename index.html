@@ -11,59 +11,61 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y0VX6H9PVX"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-Y0VX6H9PVX');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Montserrat:wght@700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@700;800&display=swap">
 <style>
-/* Layout: one column — title, then one big tile per game, then a quiet footer. */
+/* Layout: one column — title, then one tile per game, then a quiet footer.
+   10/27 配色改成跟官網同一套：米白底、白卡片、細框線，每個遊戲一個官網主色，不用黑框和黑底。 */
 :root{
   color-scheme:light;
-  --paper:#FFF9EC; --ink:#16244A; --ink-soft:#4A5677; --line:#E8DFC9; --chip:#FFFFFF;
-  --sun:#FFD84D; --pink:#FF5FA8; --night:#1E1830;
+  --paper:#FFF8F3; --card:#FFFFFF; --ink:#0F0E0E; --ink-soft:#5C5552; --line:#E9E2DC;
+  --coral:#FF3B5C; --cobalt:#1F4BFF; --green:#00A86B; --violet:#7B2FF7;
   --body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
-  --display:"Montserrat","Noto Sans TC",system-ui,sans-serif;
+  --display:"Inter","Noto Sans TC",system-ui,sans-serif;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);line-height:1.6;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:calc(28px + env(safe-area-inset-top,0px)) calc(40px + env(safe-area-inset-bottom,0px))}
-.wrap{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
-h1{margin:0;font-weight:900;font-size:clamp(32px,9vw,44px);line-height:1.15;text-wrap:balance}
-h1 span{background:linear-gradient(transparent 62%,var(--sun) 62%)}
-.lede{margin:4px 0 0;color:var(--ink-soft);font-size:16px}
-.game{display:flex;flex-direction:column;text-decoration:none;color:inherit;border:3px solid var(--ink);border-radius:24px;overflow:hidden;
-  box-shadow:6px 6px 0 var(--ink);background:var(--chip);transition:transform .15s,box-shadow .15s}
-a.game:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--ink)}
-a.game:focus-visible{outline:3px solid var(--sun);outline-offset:4px}
-.art{height:190px;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;border-bottom:3px solid var(--ink)}
-.art img{display:block;max-width:100%}
-.genki .art{background:#FF5FA8 radial-gradient(circle,#FFD84D 3px,transparent 3.4px) 0 0/24px 24px;align-items:center}
-.genki .art img{height:170px;width:170px;object-fit:cover;border-radius:18px;border:3px solid var(--ink)}
-.island .art{background:var(--night)}
-.trio .art{background:#1F4FD8;align-items:center}
-.trio .art img{height:170px;width:170px;object-fit:cover;border-radius:18px;border:3px solid var(--ink);background:#fff}
-.trio .go{background:#1F4FD8;box-shadow:0 5px 0 #14369A}
-.island .art img{height:180px;width:auto;object-fit:cover}
-.info{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px}
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:calc(32px + env(safe-area-inset-top,0px)) calc(40px + env(safe-area-inset-bottom,0px))}
+.wrap{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.eyebrow{margin:0 0 8px;font:800 13px/1 var(--display);letter-spacing:.16em;color:var(--coral)}
+h1{margin:0;font-weight:900;font-size:clamp(32px,9vw,42px);line-height:1.15;text-wrap:balance}
+.lede{margin:6px 0 0;color:var(--ink-soft);font-size:16px}
+.game{--c:var(--cobalt);--tint:#EEF2FF;display:flex;flex-direction:column;text-decoration:none;color:inherit;border:1px solid var(--line);border-radius:20px;overflow:hidden;
+  background:var(--card);box-shadow:0 1px 2px rgba(15,14,14,.04),0 8px 24px rgba(15,14,14,.05);transition:transform .15s,box-shadow .15s}
+a.game:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(15,14,14,.05),0 14px 32px rgba(15,14,14,.08)}
+a.game:focus-visible{outline:3px solid var(--c);outline-offset:3px}
+.g-check{--c:var(--coral);--tint:#FFF0F2}
+.g-rewrite{--c:var(--cobalt);--tint:#EEF2FF}
+.g-talk{--c:var(--green);--tint:#E9F7F1}
+.genki{--c:var(--violet);--tint:#F3ECFF}
+.island{--c:var(--violet);--tint:#F3ECFF}
+.art{height:180px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--tint)}
+.art img{display:block;height:150px;width:150px;object-fit:cover;border-radius:18px;background:#fff;box-shadow:0 6px 18px rgba(15,14,14,.08)}
+.island .art img{width:auto;max-width:86%;object-fit:cover}
+.info{padding:16px 20px 20px;display:flex;flex-direction:column;gap:6px}
 .meta{display:flex;gap:6px;flex-wrap:wrap}
-.pill{font:800 12px/1 var(--body);letter-spacing:.06em;padding:6px 10px;border-radius:99px;background:var(--paper);border:1.5px solid var(--line)}
-.info h2{margin:2px 0 0;font-size:24px;font-weight:900}
+.pill{font:700 12px/1 var(--body);letter-spacing:.04em;padding:6px 10px;border-radius:99px;background:var(--tint);color:var(--c)}
+.info h2{margin:2px 0 0;font-size:22px;font-weight:900}
 .info p{margin:0;color:var(--ink-soft);font-size:15px}
-.go{margin-top:8px;align-self:flex-start;font:900 16px/1 var(--body);background:var(--pink);color:#fff;padding:13px 20px;border-radius:14px;box-shadow:0 5px 0 #C93D80}
-.soon .go{background:var(--line);color:var(--ink-soft);box-shadow:none}
-.soon{opacity:.92}
+.go{margin-top:10px;align-self:flex-start;font:700 15px/1 var(--body);background:var(--c);color:#fff;padding:13px 22px;border-radius:999px}
+.soon .go{background:var(--line);color:var(--ink-soft)}
+.soon .pill{background:#F5F1EE;color:var(--ink-soft)}
+.soon .art img{filter:saturate(.7)}
 footer{text-align:center;font-size:13px;color:var(--ink-soft)}
-footer a{color:var(--ink);font-weight:700}
+footer a{color:var(--cobalt);font-weight:700}
 @media (prefers-reduced-motion:reduce){a.game{transition:none}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <h1>思考<span>遊樂場</span></h1>
+    <p class="eyebrow">THINKING PLAYGROUND</p>
+    <h1>思考遊樂場</h1>
     <p class="lede">用玩的，想清楚一點。挑一個今天想玩的遊戲。</p>
   </header>
 
-  <a class="game trio" href="check/" data-game="check">
+  <a class="game trio g-check" href="check/" data-game="check">
     <div class="art"><img src="check/char_pick.jpg" alt="看著菜單猶豫的人物插畫"></div>
     <div class="info">
       <div class="meta"><span class="pill">12 題</span><span class="pill">兩分鐘</span><span class="pill">免註冊</span></div>
@@ -73,7 +75,7 @@ footer a{color:var(--ink);font-weight:700}
     </div>
   </a>
 
-  <a class="game trio" href="rewrite/" data-game="rewrite" data-open="2026-10-29">
+  <a class="game trio g-rewrite" href="rewrite/" data-game="rewrite" data-open="2026-10-29">
     <div class="art"><img src="check/char_see.jpg" alt="看著月曆思考的人物插畫"></div>
     <div class="info">
       <div class="meta"><span class="pill">一句話</span><span class="pill">一分鐘</span><span class="pill">免註冊</span></div>
@@ -83,7 +85,7 @@ footer a{color:var(--ink);font-weight:700}
     </div>
   </a>
 
-  <a class="game trio" href="talk/" data-game="talk" data-open="2026-10-30">
+  <a class="game trio g-talk" href="talk/" data-game="talk" data-open="2026-10-30">
     <div class="art"><img src="check/char_smooth.jpg" alt="微笑的人物插畫"></div>
     <div class="info">
       <div class="meta"><span class="pill">一鍵複製</span><span class="pill">15 分鐘</span><span class="pill">免註冊</span></div>

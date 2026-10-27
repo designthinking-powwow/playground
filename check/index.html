@@ -40,8 +40,9 @@ if(!window.TEST){
 
 <style>
 :root{
-  --bg:#F6F4EF; --card:#FFFFFF; --ink:#16181D; --muted:#5B6070; --line:#E3E0D8;
-  --accent:#1F4FD8; --accent-soft:#E6ECFB; --ok:#2BB673;
+  /* 10/27 配色跟官網同一套（米白底、官網主色），少用黑色 */
+  --bg:#FFF8F3; --card:#FFFFFF; --ink:#0F0E0E; --muted:#5C5552; --line:#E9E2DC;
+  --accent:#FF3B5C; --accent-soft:#FFF0F2; --ok:#2BB673;
 }
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -121,7 +122,7 @@ p{margin:0 0 12px}
 
 /* level 2 gate */
 .lv2-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
-.lv2-head .lv{background:var(--ink);color:#fff;font-size:12px;font-weight:700;border-radius:6px;padding:2px 8px}
+.lv2-head .lv{background:var(--accent);color:#fff;font-size:12px;font-weight:700;border-radius:6px;padding:2px 8px}
 ul.list{margin:0 0 12px;padding-left:20px}
 ul.list li{margin-bottom:6px}
 label.field{display:block;font-size:14px;font-weight:600;margin:12px 0 6px}
@@ -137,7 +138,7 @@ input[type=email]:focus{outline:none;border-color:var(--accent)}
 .bar .row{display:flex;justify-content:space-between;font-size:14px;font-weight:600;margin-bottom:4px}
 .bar .track{height:12px;background:var(--line);border-radius:6px;overflow:hidden}
 .bar .fill{height:100%;background:var(--accent);border-radius:6px}
-.bar.low .fill{background:var(--ink)}
+.bar.low .fill{background:var(--muted)}
 .bar .row em{font-style:normal;font-size:12px;color:var(--muted);font-weight:500;margin-left:6px}
 
 /* observe sheet */
@@ -163,7 +164,7 @@ input[type=email]:focus{outline:none;border-color:var(--accent)}
 .game.locked{pointer-events:none;background:#F1EFEA;border-style:dashed}
 .game.locked .t{color:var(--muted)}
 .game.locked .n{background:#8A8F9C}
-.game.locked .badge{background:#16181D;color:#fff;border-radius:999px;padding:3px 10px}
+.game.locked .badge{background:var(--muted);color:#fff;border-radius:999px;padding:3px 10px}
 .game .badge{margin-left:auto;font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap}
 .game.current{border-color:var(--accent)}
 .game.current .badge{color:var(--accent)}
@@ -511,13 +512,13 @@ async function makeCard(type){
   const x = c.getContext('2d');
   try{ await document.fonts.ready; }catch(e){}
   const F = '"Noto Sans TC","PingFang TC","Heiti TC",sans-serif';
-  x.fillStyle = '#F6F4EF'; x.fillRect(0,0,W,H);
-  x.fillStyle = '#1F4FD8'; x.fillRect(0,0,20,H);
+  x.fillStyle = '#FFF8F3'; x.fillRect(0,0,W,H);
+  x.fillStyle = '#FF3B5C'; x.fillRect(0,0,20,H);
   const logo = await loadLogo();
   if(logo){ const lh = 64, lw = logo.width*lh/logo.height; x.drawImage(logo, 90, 80, lw, lh); }
   x.textAlign = 'center'; x.fillStyle = '#5B6070'; x.font = `700 40px ${F}`;
   x.fillText('我是', W/2, 250);
-  x.fillStyle = '#16181D'; x.font = `900 92px ${F}`;
+  x.fillStyle = '#0F0E0E'; x.font = `900 92px ${F}`;
   const nm = `【${d.short}】型`;
   let fs = 92; while(x.measureText(nm).width > W-160 && fs > 60){ fs -= 4; x.font = `900 ${fs}px ${F}`; }
   x.fillText(nm, W/2, 360);
@@ -537,10 +538,10 @@ async function makeCard(type){
     if(x.roundRect) x.roundRect(L, T, side, side, 28); else x.rect(L, T, side, side);
     x.stroke();
   } else {
-    x.fillStyle = '#1F4FD8'; x.font = `900 220px ${F}`; x.textBaseline = 'middle';
+    x.fillStyle = '#FF3B5C'; x.font = `900 220px ${F}`; x.textBaseline = 'middle';
     x.fillText(d.glyph, cx, cy + 8); x.textBaseline = 'alphabetic';
   }
-  x.fillStyle = '#16181D'; x.font = `700 46px ${F}`;
+  x.fillStyle = '#0F0E0E'; x.font = `700 46px ${F}`;
   // 平均分行，避免最後一行只剩兩三個字
   const full = `「${d.line}」`;
   let lines = wrapLines(x, full, W - 220);
@@ -550,8 +551,8 @@ async function makeCard(type){
     if(even.length === lines.length) lines = even;
   }
   lines.forEach((l,i) => x.fillText(l, W/2, 960 + i*68));
-  x.fillStyle = '#1F4FD8'; x.fillRect(90, H-230, W-180, 4);
-  x.fillStyle = '#16181D'; x.font = `900 52px ${F}`;
+  x.fillStyle = '#FF3B5C'; x.fillRect(90, H-230, W-180, 4);
+  x.fillStyle = '#0F0E0E'; x.font = `900 52px ${F}`;
   x.fillText('你是哪一種卡住的人？', W/2, H-150);
   x.fillStyle = '#5B6070'; x.font = `500 32px Inter,${F}`;
   x.fillText(SHARE_URL.replace('https://',''), W/2, H-95);
