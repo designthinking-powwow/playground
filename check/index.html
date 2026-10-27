@@ -1,0 +1,807 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>你是哪一種卡住的人？｜卡關健檢</title>
+<meta name="description" content="你是看不清現在、方向還沒定、卡在第一步，還是怕選錯？12 題、兩分鐘，當場知道你是哪一型。不用登入、不用留資料。">
+<meta property="og:title" content="你是哪一種卡住的人？">
+<meta property="og:description" content="12 題・兩分鐘・不用留資料。測完看看你是哪一型，再傳給朋友比比看。">
+<!-- 上線後改成完整網址 -->
+<meta property="og:image" content="https://designthinking-powwow.github.io/playground/check/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+<!-- ?test=1：所有遊戲打開、不送任何追蹤 -->
+<script>window.TEST = /[?&]test=1(&|$)/.test(location.search);</script>
+<!-- Meta Pixel（設計思考 419270146293255） -->
+<script>
+if(!window.TEST){
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','419270146293255');fbq('track','PageView');
+}
+</script>
+<!-- GA4 -->
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+if(!window.TEST){
+  var g=document.createElement('script');g.async=true;g.src='https://www.googletagmanager.com/gtag/js?id=G-Y0VX6H9PVX';document.head.appendChild(g);
+  gtag('js',new Date());gtag('config','G-Y0VX6H9PVX');
+}
+</script>
+
+<style>
+:root{
+  --bg:#F6F4EF; --card:#FFFFFF; --ink:#16181D; --muted:#5B6070; --line:#E3E0D8;
+  --accent:#1F4FD8; --accent-soft:#E6ECFB; --ok:#2BB673;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:Inter,"Noto Sans TC",system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:560px;margin:0 auto;padding:20px 16px 48px}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+header img{height:30px;width:auto;display:block}
+.tag{font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--accent);text-transform:uppercase}
+h1{font-size:30px;line-height:1.25;font-weight:900;margin:8px 0 12px}
+h2{font-size:22px;line-height:1.35;font-weight:800;margin:0 0 10px}
+h3{font-size:17px;font-weight:700;margin:22px 0 8px}
+p{margin:0 0 12px}
+.muted{color:var(--muted);font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px}
+.btn{display:block;width:100%;border:0;border-radius:12px;padding:15px 18px;font:inherit;font-weight:700;font-size:16px;cursor:pointer;text-align:center;text-decoration:none}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-ghost{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
+.btn+.btn{margin-top:10px}
+.pill{display:inline-block;background:var(--accent-soft);color:var(--accent);font-size:13px;font-weight:600;border-radius:999px;padding:3px 10px;margin-right:6px}
+.hidden{display:none!important}
+
+/* quiz */
+.progress{height:6px;background:var(--line);border-radius:6px;overflow:hidden;margin:4px 0 18px}
+.progress>i{display:block;height:100%;width:0;background:var(--accent);transition:width .35s cubic-bezier(.2,.8,.2,1)}
+.qnum{font-size:13px;color:var(--muted);font-weight:600;display:flex;align-items:baseline;gap:6px}
+.qnum b{font-size:28px;line-height:1;color:var(--accent);font-weight:800;display:inline-block;min-width:1.4em}
+.qnum b.bump{animation:bump .32s ease-out}
+@keyframes bump{0%{transform:translateY(8px);opacity:0}100%{transform:none;opacity:1}}
+.qbody{will-change:transform,opacity}
+.qbody.out-l{animation:outL .18s ease-in forwards}
+.qbody.in-r{animation:inR .26s cubic-bezier(.2,.8,.2,1)}
+.qbody.out-r{animation:outR .18s ease-in forwards}
+.qbody.in-l{animation:inL .26s cubic-bezier(.2,.8,.2,1)}
+@keyframes outL{to{transform:translateX(-40px);opacity:0}}
+@keyframes inR{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
+@keyframes outR{to{transform:translateX(40px);opacity:0}}
+@keyframes inL{from{transform:translateX(-40px);opacity:0}to{transform:none;opacity:1}}
+.opt{transition:background .12s,border-color .12s,color .12s,transform .12s}
+.opt:active{transform:scale(.98)}
+.opt.picked{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700}
+.opt.picked::after{content:"✓";float:right}
+.opt.prev{border-color:var(--accent)}
+@media (prefers-reduced-motion:reduce){.qbody.out-l,.qbody.in-r,.qbody.out-r,.qbody.in-l,.qnum b.bump{animation-duration:.01s}}
+.qtext{font-size:20px;font-weight:700;line-height:1.5;margin:6px 0 18px;min-height:90px}
+.opts{display:grid;gap:10px}
+.opt{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:14px 16px;font:inherit;font-size:16px;text-align:left;cursor:pointer;color:var(--ink)}
+@media (hover:hover){.opt:hover{border-color:var(--accent)}}
+.opt:focus-visible{border-color:var(--accent);outline:none}
+.back{background:none;border:0;color:var(--muted);font:inherit;font-size:14px;margin-top:14px;cursor:pointer;padding:4px 0}
+
+/* result */
+.score{display:flex;align-items:baseline;gap:8px;margin:4px 0 6px}
+.score b{font-family:Inter,sans-serif;font-size:56px;font-weight:800;color:var(--accent);line-height:1}
+.score span{color:var(--muted);font-weight:600}
+.type-name{font-size:26px;font-weight:900;margin:2px 0 8px}
+.draft{font-size:11px;font-weight:700;color:#8a6d00;background:#FFF4C2;border-radius:6px;padding:2px 6px;vertical-align:middle;margin-left:6px}
+.action{background:var(--accent-soft);border-radius:12px;padding:14px 16px;margin-top:14px}
+.action .label{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:4px}
+
+/* 身分結果 */
+.idcard{text-align:center;padding:24px 20px 20px}
+.idcard .you{font-size:14px;font-weight:700;color:var(--muted);letter-spacing:.04em}
+.idname{font-size:34px;font-weight:900;line-height:1.25;margin:4px 0 2px;text-wrap:balance}
+.idname b{color:var(--accent)}
+.charbox{width:200px;height:200px;margin:14px auto 10px;border-radius:50%;background:var(--accent-soft);display:grid;place-items:center;overflow:hidden}
+.charbox img{width:100%;height:100%;object-fit:cover;display:block}
+.charbox .glyph{font-size:96px;font-weight:900;color:var(--accent);line-height:1}
+.everyday{font-size:19px;font-weight:700;line-height:1.6;margin:6px auto 4px;max-width:20em;text-wrap:balance}
+.everyday::before{content:"「"}.everyday::after{content:"」"}
+.idcard .sub{font-size:13px;color:var(--muted);margin:0 0 16px}
+.sharerow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sharerow .btn{margin:0;padding:13px 10px;font-size:15px}
+.sharehint{font-size:13px;color:var(--muted);margin-top:10px}
+.cardprev{margin-top:12px}
+.cardprev img{width:100%;border-radius:12px;border:1px solid var(--line);display:block}
+
+/* level 2 gate */
+.lv2-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.lv2-head .lv{background:var(--ink);color:#fff;font-size:12px;font-weight:700;border-radius:6px;padding:2px 8px}
+ul.list{margin:0 0 12px;padding-left:20px}
+ul.list li{margin-bottom:6px}
+label.field{display:block;font-size:14px;font-weight:600;margin:12px 0 6px}
+input[type=email]{width:100%;font:inherit;font-size:16px;padding:13px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff}
+input[type=email]:focus{outline:none;border-color:var(--accent)}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:14px;margin:12px 0}
+.check input{width:18px;height:18px;margin-top:3px;flex:none;accent-color:var(--accent)}
+.notice{font-size:12px;color:var(--muted);line-height:1.6;margin-top:10px}
+.err{color:#C0392B;font-size:13px;margin-top:6px}
+
+/* chart */
+.bars{display:grid;gap:12px;margin:8px 0 4px}
+.bar .row{display:flex;justify-content:space-between;font-size:14px;font-weight:600;margin-bottom:4px}
+.bar .track{height:12px;background:var(--line);border-radius:6px;overflow:hidden}
+.bar .fill{height:100%;background:var(--accent);border-radius:6px}
+.bar.low .fill{background:var(--ink)}
+.bar .row em{font-style:normal;font-size:12px;color:var(--muted);font-weight:500;margin-left:6px}
+
+/* observe sheet */
+#sheet{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px}
+#sheet .sheet-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+#sheet .sheet-top img{height:22px}
+#sheet table{width:100%;border-collapse:collapse;font-size:14px}
+#sheet td{border-top:1px solid var(--line);padding:10px 4px;vertical-align:top}
+#sheet td.d{width:44px;font-weight:700;color:var(--accent);white-space:nowrap}
+#sheet td.box{width:26px}
+#sheet td.box i{display:inline-block;width:16px;height:16px;border:1.5px solid var(--ink);border-radius:4px}
+.eps{display:grid;gap:8px}
+.ep{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:15px}
+.ep b{color:var(--accent);margin-right:6px;font-family:Inter,sans-serif}
+
+/* games strip */
+.games{display:grid;gap:10px}
+.game{display:flex;gap:12px;align-items:center;border:1px solid var(--line);background:#fff;border-radius:14px;padding:14px;text-decoration:none;color:var(--ink)}
+.game .n{flex:none;width:36px;height:36px;border-radius:10px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-family:Inter,sans-serif}
+.game .t{font-weight:700}
+.game .s{font-size:13px;color:var(--muted)}
+.next{border-color:var(--accent)}
+.game.locked{pointer-events:none;background:#F1EFEA;border-style:dashed}
+.game.locked .t{color:var(--muted)}
+.game.locked .n{background:#8A8F9C}
+.game.locked .badge{background:#16181D;color:#fff;border-radius:999px;padding:3px 10px}
+.game .badge{margin-left:auto;font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap}
+.game.current{border-color:var(--accent)}
+.game.current .badge{color:var(--accent)}
+footer{margin-top:28px;text-align:center;font-size:12px;color:var(--muted)}
+footer img{height:22px;opacity:.85;margin-bottom:6px}
+
+@media print{
+  body{background:#fff}
+  body *{visibility:hidden}
+  #sheet,#sheet *{visibility:visible}
+  #sheet{position:absolute;left:0;top:0;width:100%;border:0}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="logo.png" alt="DESIGN THINKING POW WOW">
+    <span class="tag">免費小遊戲 1/3</span>
+  </header>
+
+  <!-- 開始 -->
+  <section id="intro">
+    <div class="tag">卡關健檢</div>
+    <h1>你是哪一種<br>卡住的人？</h1>
+    <p class="muted" style="margin-top:-4px">12 題・兩分鐘・不用留資料</p>
+    <p>同樣是「卡住」，有人是看不清現在，有人是怕選錯。卡的地方不同，下一步就不同。測完看看你是哪一型，再傳給朋友比比看。</p>
+    <p class="muted">憑第一直覺回答就好，沒有標準答案。不用留任何資料，就能看到結果。</p>
+    <button class="btn btn-primary" id="startBtn">開始測</button>
+  </section>
+
+  <!-- 題目 -->
+  <section id="quiz" class="hidden">
+    <div class="card">
+      <div class="qnum">第 <b id="qn">1</b> 題／12</div>
+      <div class="progress"><i id="bar"></i></div>
+      <div class="qbody" id="qbody">
+        <div class="qtext" id="qtext"></div>
+        <div class="opts" id="opts"></div>
+      </div>
+      <button class="back" id="backBtn">← 上一題</button>
+    </div>
+  </section>
+
+  <!-- 結果 -->
+  <section id="result" class="hidden">
+    <div class="card idcard">
+      <p class="muted hidden" id="sameNote">你每一題都選了一樣的答案，結果可能不太準，要不要再憑直覺做一次？</p>
+      <div class="you">你是</div>
+      <div class="idname">【<b id="idName"></b>】型</div>
+      <div class="charbox" id="charBox"></div>
+      <p class="everyday" id="everyday"></p>
+      <p class="sub">這一型的人，常常有這種時刻</p>
+      <div class="sharerow">
+        <button class="btn btn-primary" id="shareCardBtn" type="button">做成分享圖</button>
+        <button class="btn btn-ghost" id="shareFriendBtn" type="button">傳給朋友測測看</button>
+      </div>
+      <p class="sharehint hidden" id="shareHint" role="status"></p>
+      <div class="cardprev hidden" id="cardPrev"></div>
+    </div>
+
+    <div class="card">
+      <div class="tag">這一型在說什麼</div>
+      <div class="type-name"><span id="typeName"></span></div>
+      <p id="typeLine"></p>
+      <div class="action">
+        <div class="label">今天就能做的 10 分鐘小動作</div>
+        <div id="typeAction"></div>
+      </div>
+    </div>
+
+    <!-- 完整報告：留 email 打開 -->
+    <div class="card" id="gate">
+      <div class="lv2-head"><span class="lv">完整報告</span><h2 style="margin:0">想看你的完整報告？</h2></div>
+      <p>完整報告會在這一頁直接打開，內容包括：</p>
+      <ul class="list">
+        <li>你在 4 個面向各幾分（一張圖看懂）</li>
+        <li>這一型最需要留意的 3 個地方</li>
+        <li>7 天觀察表：只觀察，不用改變，可以存圖或印出來</li>
+        <li>這一型適合先看課程的哪幾集</li>
+      </ul>
+      <form id="emailForm" novalidate>
+        <label class="field" for="email">留下 email，完整報告馬上打開，也會寄一份給你留存</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+        <div class="err hidden" id="emailErr">請填寫正確的 email 格式</div>
+        <label class="check"><input type="checkbox" id="subscribe" name="subscribe"><span>也訂閱電子報（每週一封，可隨時退訂）</span></label>
+        <button class="btn btn-primary" type="submit">打開完整報告</button>
+        <p class="notice">你的 email 只用來寄這份健檢結果；有勾選電子報才會加入電子報名單。不會提供給第三方，想刪除可來信 dt.designthinking@gmail.com。</p>
+      </form>
+    </div>
+
+    <!-- 完整報告內容 -->
+    <div id="lv2" class="hidden">
+      <div class="card">
+        <div class="lv2-head"><span class="lv">完整報告</span><h2 style="margin:0">你的 4 個面向</h2></div>
+        <p class="muted">分數越高，代表這一塊越順。這不是成績，是你現在各塊順不順的溫度計。</p>
+        <div class="bars" id="bars"></div>
+      </div>
+
+      <div class="card">
+        <h2 id="stuckH">這一型最常卡住的 3 個地方</h2>
+        <ul class="list" id="stuck"></ul>
+        <p class="muted" id="stuckNote"></p>
+      </div>
+
+      <div class="card">
+        <h2>7 天觀察表</h2>
+        <p class="muted">這 7 天什麼都不用改，只要每天花一分鐘觀察，打個勾。觀察本身，就會讓你看見一些以前沒注意到的事。</p>
+        <div id="sheet">
+          <div class="sheet-top"><strong id="sheetTitle">7 天觀察表</strong><img src="logo.png" alt="DESIGN THINKING POW WOW"></div>
+          <table><tbody id="sheetRows"></tbody></table>
+        </div>
+        <button class="btn btn-ghost" id="saveImg" style="margin-top:12px">存成圖片</button>
+        <button class="btn btn-ghost" id="printBtn">列印</button>
+      </div>
+
+      <div class="card">
+        <h2>這一型，建議先看這幾集</h2>
+        <p class="muted">線上課〈別急著找答案！善用設計思考，打造你自己的人生藍圖〉共 8 集，這一型最對應的是：</p>
+        <div class="eps" id="eps"></div>
+      </div>
+    </div>
+
+    <!-- 明天的遊戲 -->
+    <div class="card next">
+      <div class="tag" id="nextTag">明天開放</div>
+      <h2 style="margin-top:4px">煩惱改寫卡</h2>
+      <p id="nextLine"></p>
+      <a class="btn btn-primary" id="nextBtn" href="#">去玩煩惱改寫卡</a>
+      <button class="btn btn-ghost" id="nextCopy" type="button">複製這頁連結，明天回來玩</button>
+    </div>
+
+    <!-- 課程 CTA -->
+    <div class="card">
+      <h2 id="ctaH">想知道卡住之後，怎麼往前走？</h2>
+      <p id="ctaP">健檢只告訴你卡在哪。怎麼一步一步走出來，是線上課〈別急著找答案！善用設計思考，打造你自己的人生藍圖〉在做的事。</p>
+      <p>先免費看 5 分鐘課程介紹 EP00，11/01（日）開賣。</p>
+      <a class="btn btn-primary" id="ep00" href="https://youtu.be/UnSkHuQmk7o" target="_blank" rel="noopener">免費看 EP00 課程介紹</a>
+      <button class="btn btn-ghost" id="retry">重新做一次</button>
+    </div>
+  </section>
+
+  <!-- 三個小遊戲 -->
+  <section style="margin-top:28px">
+    <h3>三個小遊戲，一天開一個</h3>
+    <p class="muted">前面的遊戲會一直留著，哪天來都可以玩。</p>
+    <div class="games" id="games"></div>
+  </section>
+
+  <footer>
+    <img src="logo.png" alt="DESIGN THINKING POW WOW"><br>
+    查查創意｜Design Thinking POW WOW<br>
+    https://www.designthinking.com.tw
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+/* ====== 設定 ====== */
+// Google Apps Script 網頁應用程式網址（部署後貼上；空白時完整報告照樣打開，只是不寄信、不存名單）
+const ENDPOINT = 'https://script.google.com/macros/s/AKfycbyMRrOroIlAD-RXXUbBbZFOg-Svap0tFttmjLY96t8LCn_tQ8AyEDqm2MiI2jQoaUMD0w/exec';
+
+/* ====== 題目：同意＝比較卡；4 個面向各 3 題 ====== */
+const AXES = {
+  see:  '看清現況',
+  dir:  '方向感',
+  act:  '動起來',
+  pick: '敢做選擇'
+};
+const QUESTIONS = [
+  {a:'see',  t:'如果要我說出最近生活裡最好和最不好的一件事，我要想很久。'},
+  {a:'dir',  t:'我花了很多時間在做事，但說不出這些事是在往哪裡去。'},
+  {a:'act',  t:'有一件想做的事放在心裡，已經超過三個月沒有動。'},
+  {a:'pick', t:'遇到選擇時，我會一直查、一直問，遲遲下不了決定。'},
+  {a:'see',  t:'我很少停下來看，自己的時間和力氣都花到哪裡去了。'},
+  {a:'dir',  t:'別人問我「接下來想做什麼」，我要想很久才答得出來。'},
+  {a:'act',  t:'我常覺得「等準備好了再開始」。'},
+  {a:'pick', t:'我擔心選了一條路，就回不去了。'},
+  {a:'see',  t:'我說不太出來，現在生活裡哪一塊最想調整。'},
+  {a:'dir',  t:'我常把別人覺得好的選項，當成自己的目標。'},
+  {a:'act',  t:'想到要開始，我會先去做其他比較簡單的事。'},
+  {a:'pick', t:'手上有好幾個選項，我每個都想留著，捨不得放掉任何一個。'}
+];
+const OPTIONS = [
+  {l:'很像我', v:3},
+  {l:'有點像', v:2},
+  {l:'不太像', v:1},
+  {l:'完全不像', v:0}
+];
+
+/* ====== 4 型（名稱為草稿，待查查定案） ====== */
+const TYPES = {
+  see: {
+    name:'看不清現在',
+    line:'不是你不想動，是還沒看清楚自己現在站在哪裡。看清楚之前，往哪走都會覺得不踏實。',
+    action:'寫下這一週，你最常想起的一件事。不用分析，寫下來就好。',
+    stuck:[
+      '每天都在應付眼前的事，很少有時間回頭看自己過得怎樣。',
+      '感覺不對勁，卻說不出是工作、關係、還是身體哪一塊。',
+      '因為說不清楚，就先放著，等到「有空」再想，但那一天一直沒來。'
+    ],
+    note:'好消息是：這一型通常只差「看清楚」這一步，一旦看清楚，後面會走得比想像中快。',
+    observe:[
+      '今天我的時間，大部分花在哪裡？',
+      '今天有哪一件事，是我原本沒打算做、卻花了不少時間的？',
+      '今天有沒有一件事，我做到一半想到「為什麼要做這個」？',
+      '今天有沒有一個瞬間，覺得「這就是我」？',
+      '今天有沒有一件事，我其實不想做卻做了？',
+      '今天和誰相處，讓我比較輕鬆？',
+      '回頭看這 6 天，哪一個答案出現最多次？'
+    ],
+    eps:['EP01','EP02','EP03']
+  },
+  dir: {
+    name:'方向還沒定',
+    line:'你的力氣很夠，事情也做得完，只是還沒決定這些力氣要用在哪裡。',
+    action:'回想這一週，圈出一件「就算沒人要求，我也還是想做」的事。只要一件。',
+    stuck:[
+      '行程排得很滿，空下來反而不知道要做什麼。',
+      '很會完成別人交代的事，但輪到自己要定方向時，會停住。',
+      '目標常常是「別人覺得好」或「大家都這樣」，做到了也不太開心。'
+    ],
+    note:'好消息是：這一型的行動力本來就在，方向一旦清楚，前進速度通常最快。',
+    observe:[
+      '今天哪一件事，是我自己想做，不是被要求的？',
+      '今天哪一件事，讓我忘了看時間？',
+      '今天做的事裡，哪一件明年還會在意？',
+      '今天有沒有一件事，是做給別人看的？',
+      '今天我羨慕了誰？羨慕的是他的什麼？',
+      '如果明天空出兩小時，我會想拿來做什麼？',
+      '回頭看這 6 天，哪一個答案讓我最意外？'
+    ],
+    eps:['EP02','EP03','EP04']
+  },
+  act: {
+    name:'卡在第一步',
+    line:'你其實知道自己想往哪裡走，只是第一步看起來太大，所以一直停在「準備」。',
+    action:'把心裡那件想做的事，縮小到「10 分鐘內就能做完」的大小，今天做完它。',
+    stuck:[
+      '覺得要準備得夠完整才能開始，結果準備一直沒有結束。',
+      '把第一步想得太大，大到一想到就累。',
+      '想開始的時候，總會先去做其他比較簡單、比較有把握的事。'
+    ],
+    note:'好消息是：這一型的方向感通常不錯，只要第一步動了，後面就會越來越順。',
+    observe:[
+      '今天我有沒有想到那件事？想到時，我做了什麼？',
+      '今天我用什麼理由，讓自己先不開始？',
+      '今天哪一件小事，我一想到就直接做了？',
+      '那件小事，為什麼比較容易開始？',
+      '今天有沒有人，正在做我想做的事？',
+      '如果只能做 10 分鐘，我會做哪一小步？',
+      '回頭看這 6 天，「還沒準備好」出現了幾次？'
+    ],
+    eps:['EP05','EP06','EP07']
+  },
+  pick: {
+    name:'怕選錯',
+    line:'你想得很周全，只是把每一個選擇都當成「最後一次機會」，所以很難放手去選。',
+    action:'挑一個你正在猶豫的選項，寫下一句：「如果它不適合我，我最晚什麼時候會發現？」',
+    stuck:[
+      '資料查得越多，越覺得每個選項都有道理，越難決定。',
+      '擔心選了就回不去，所以寧願先不選。',
+      '每個選項都想留著，結果每一個都只做了一點點。'
+    ],
+    note:'好消息是：這一型的思考力很好，只要找到「小小試一下」的方式，選擇就不再那麼可怕。',
+    observe:[
+      '今天我在猶豫哪一個決定？',
+      '今天我為這個決定，又多查了什麼？查完更清楚還是更亂？',
+      '今天有沒有一個小決定，我很快就做了？感覺怎樣？',
+      '我最怕選錯之後發生什麼事？',
+      '那件事真的發生的話，我可以怎麼補救？',
+      '今天有沒有人做了一個選擇，後來也還好？',
+      '回頭看這 6 天，我最在意的到底是哪一個選項？'
+    ],
+    eps:['EP06','EP07','EP08']
+  },
+  // 第五種：四塊都夠高，不硬貼「卡住」
+  smooth: {
+    name:'目前走得很順',
+    line:'你現在看得清楚、方向也在，也敢選、會動。這種時候最適合做一件事：把讓你順的原因記下來，卡住時就用得上。',
+    action:'寫下最近一件讓你覺得「對，就是這樣」的事，以及當時你做對了什麼。',
+    stuck:[
+      '順的時候很少回頭看「為什麼順」，等到卡住才想不起來。',
+      '事情一多，容易把力氣平均分掉，最強的那一塊反而沒用到。',
+      '別人來問你意見時，你知道答案，卻說不清楚自己是怎麼想的。'
+    ],
+    note:'好消息是：你已經有一套自己的走法，只差把它整理成隨時拿得出來的樣子。',
+    observe:[
+      '今天哪一件事，我做得很順？',
+      '那件事順，是因為我先做了什麼？',
+      '今天有沒有一個決定，我很快就做了？我是怎麼判斷的？',
+      '今天有誰來問我意見？我給了什麼建議？',
+      '今天有沒有一件事，差一點就卡住？後來怎麼過的？',
+      '今天我最想把時間多花在哪一塊？',
+      '回頭看這 6 天，讓我順的共同原因是什麼？'
+    ],
+    eps:['EP04','EP06','EP08'],
+    cta:['想把這份順，變成一張可以一直用的人生藍圖？','健檢告訴你哪裡順。把它整理成一張隨時拿得出來的人生藍圖，是線上課〈別急著找答案！善用設計思考，打造你自己的人生藍圖〉在做的事。']
+  }
+};
+// 結果身分：短名、生活小場景、人物圖（圖還沒生出來時，用一個大字代替）
+// 五張人物圖放進資料夾後，改成 true
+const CHAR_READY = false;
+const SHARE_URL = 'https://designthinking-powwow.github.io/playground/check/';
+const ID = {
+  see:    {short:'看不清現在', glyph:'看', img:'char_see.png',    line:'行事曆滿滿的，但要說出這個月最開心的一件事，要想很久。'},
+  dir:    {short:'方向還沒定', glyph:'向', img:'char_dir.png',    line:'每天都過得很充實，只是不太確定，這些充實要帶我去哪裡。'},
+  act:    {short:'卡在第一步', glyph:'步', img:'char_act.png',    line:'想上的課存進收藏半年了，收藏夾比筆記本還滿。'},
+  pick:   {short:'怕選錯',     glyph:'選', img:'char_pick.png',   line:'菜單看了 20 分鐘，最後點了跟上次一樣的。'},
+  smooth: {short:'走得很順',   glyph:'順', img:'char_smooth.png', line:'朋友問你怎麼做到的，你想了一下：『好像就……這樣做啊？』'}
+};
+let charImg = null;
+function renderId(type){
+  const d = ID[type];
+  $('idName').textContent = d.short;
+  $('everyday').textContent = d.line;
+  const box = $('charBox'); box.innerHTML = ''; charImg = null;
+  const glyph = () => { box.innerHTML = `<span class="glyph" aria-hidden="true">${d.glyph}</span>`; };
+  const im = new Image();
+  im.alt = `${d.short}型的人物插畫`;
+  im.onload = () => { box.innerHTML = ''; box.appendChild(im); charImg = im; };
+  im.onerror = glyph;
+  glyph();
+  if(CHAR_READY) im.src = d.img;
+  $('shareHint').classList.add('hidden');
+  $('cardPrev').classList.add('hidden'); $('cardPrev').innerHTML = '';
+}
+// 分享圖 1080×1350
+function wrapLines(ctx, text, maxW){
+  const out = []; let line = '';
+  for(const ch of text){
+    if(ctx.measureText(line+ch).width > maxW && line){ out.push(line); line = ch; }
+    else line += ch;
+  }
+  if(line) out.push(line);
+  // 避免標點落在行首
+  for(let i=1;i<out.length;i++){ if(/^[，。、」：；！？…]/.test(out[i])){ out[i-1]+=out[i][0]; out[i]=out[i].slice(1); } }
+  return out.filter(Boolean);
+}
+function loadLogo(){ return new Promise(r => { const i = new Image(); i.onload = () => r(i); i.onerror = () => r(null); i.src = 'logo.png'; }); }
+async function makeCard(type){
+  const d = ID[type], W = 1080, H = 1350;
+  const c = document.createElement('canvas'); c.width = W; c.height = H;
+  const x = c.getContext('2d');
+  try{ await document.fonts.ready; }catch(e){}
+  const F = '"Noto Sans TC","PingFang TC","Heiti TC",sans-serif';
+  x.fillStyle = '#F6F4EF'; x.fillRect(0,0,W,H);
+  x.fillStyle = '#1F4FD8'; x.fillRect(0,0,20,H);
+  const logo = await loadLogo();
+  if(logo){ const lh = 64, lw = logo.width*lh/logo.height; x.drawImage(logo, 90, 80, lw, lh); }
+  x.textAlign = 'center'; x.fillStyle = '#5B6070'; x.font = `700 40px ${F}`;
+  x.fillText('我是', W/2, 250);
+  x.fillStyle = '#16181D'; x.font = `900 92px ${F}`;
+  const nm = `【${d.short}】型`;
+  let fs = 92; while(x.measureText(nm).width > W-160 && fs > 60){ fs -= 4; x.font = `900 ${fs}px ${F}`; }
+  x.fillText(nm, W/2, 360);
+  // 人物圖或大字
+  const cx = W/2, cy = 640, r = 210;
+  x.fillStyle = '#E6ECFB'; x.beginPath(); x.arc(cx, cy, r, 0, Math.PI*2); x.fill();
+  if(charImg){
+    x.save(); x.beginPath(); x.arc(cx, cy, r, 0, Math.PI*2); x.clip();
+    const s = Math.max(2*r/charImg.width, 2*r/charImg.height);
+    x.drawImage(charImg, cx - charImg.width*s/2, cy - charImg.height*s/2, charImg.width*s, charImg.height*s);
+    x.restore();
+  } else {
+    x.fillStyle = '#1F4FD8'; x.font = `900 220px ${F}`; x.textBaseline = 'middle';
+    x.fillText(d.glyph, cx, cy + 8); x.textBaseline = 'alphabetic';
+  }
+  x.fillStyle = '#16181D'; x.font = `700 46px ${F}`;
+  // 平均分行，避免最後一行只剩兩三個字
+  const full = `「${d.line}」`;
+  let lines = wrapLines(x, full, W - 220);
+  if(lines.length > 1){
+    const target = x.measureText(full).width / lines.length + 40;
+    const even = wrapLines(x, full, Math.min(W - 220, target));
+    if(even.length === lines.length) lines = even;
+  }
+  lines.forEach((l,i) => x.fillText(l, W/2, 960 + i*68));
+  x.fillStyle = '#1F4FD8'; x.fillRect(90, H-230, W-180, 4);
+  x.fillStyle = '#16181D'; x.font = `900 52px ${F}`;
+  x.fillText('你是哪一種卡住的人？', W/2, H-150);
+  x.fillStyle = '#5B6070'; x.font = `500 32px Inter,${F}`;
+  x.fillText(SHARE_URL.replace('https://',''), W/2, H-95);
+  return c;
+}
+async function shareCard(){
+  const type = result && result.type; if(!type) return;
+  const hint = $('shareHint'), prev = $('cardPrev');
+  const btn = $('shareCardBtn'); btn.disabled = true; btn.textContent = '製作中…';
+  try{
+    let c;
+    try{ c = await makeCard(type); c.toDataURL('image/png'); }
+    catch(e){ hint.textContent = '分享圖做不出來，可以直接截圖這一頁分享。'; hint.classList.remove('hidden'); return; }
+    const blob = await new Promise(r => c.toBlob(r, 'image/png'));
+    track('ShareCard', {type: ID[type].short});
+    const file = blob && new File([blob], `我是${ID[type].short}型.png`, {type:'image/png'});
+    if(file && navigator.canShare && navigator.canShare({files:[file]})){
+      try{ await navigator.share({files:[file], text:`我是【${ID[type].short}】型，你呢？ ${SHARE_URL}`}); return; }
+      catch(e){ if(e && e.name==='AbortError') return; }
+    }
+    const url = c.toDataURL('image/png');
+    prev.innerHTML = `<img src="${url}" alt="我的分享圖：${ID[type].short}型">`;
+    prev.classList.remove('hidden');
+    hint.textContent = '長按圖片（電腦按右鍵）就能儲存，再發到 IG 限動或傳給朋友。';
+    hint.classList.remove('hidden');
+  } finally { btn.disabled = false; btn.textContent = '做成分享圖'; }
+}
+async function shareFriend(){
+  const text = '這個測驗好準，你測測看你是哪一種卡住的人 👉';
+  track('ShareFriend', {type: result ? ID[result.type].short : ''});
+  const hint = $('shareHint');
+  if(navigator.share){
+    try{ await navigator.share({text, url: SHARE_URL}); return; }
+    catch(e){ if(e && e.name==='AbortError') return; }
+  }
+  const all = `${text} ${SHARE_URL}`;
+  try{ await navigator.clipboard.writeText(all); hint.textContent = '已複製，貼給朋友就可以了。'; }
+  catch(e){ hint.textContent = `複製這段傳給朋友：${all}`; }
+  hint.classList.remove('hidden');
+}
+
+const EP_TITLES = {
+  EP01:'我的人生問題清單', EP02:'人生現況盤點表', EP03:'找回你的能量來源', EP04:'重新設計你問自己的問題',
+  EP05:'心智圖發散表', EP06:'三條可能路徑', EP07:'找人聊聊', EP08:'人生藍圖整合版'
+};
+
+/* ====== 三個小遊戲（依台北日期開放） ====== */
+const GAMES = [
+  {n:1, t:'卡關健檢', s:'兩分鐘，看出你卡在哪', open:'2026-10-28', href:'../check/'},
+  {n:2, t:'煩惱改寫卡', s:'把一句煩惱，改寫成可以動手的問題', open:'2026-10-29', href:'../rewrite/'},
+  {n:3, t:'找人聊 15 分鐘', s:'邀約訊息、好問題、聊完筆記', open:'2026-10-30', href:'../talk/'}
+];
+const CURRENT_GAME = 1;
+
+/* ====== 追蹤 ====== */
+function track(name, params){
+  if(window.TEST){ console.log('[test]', name, params||{}); return; }
+  try{ if(window.fbq) fbq('trackCustom', name, params||{}); }catch(e){}
+  try{
+    const ga = {QuizStart:'quiz_start', QuizComplete:'quiz_complete', EmailUnlock:'email_unlock', CourseClick:'course_click'}[name] || name;
+    if(window.gtag) gtag('event', ga, params||{});
+  }catch(e){}
+}
+
+/* ====== 流程 ====== */
+const $ = id => document.getElementById(id);
+let idx = 0, answers = [], result = null;
+$('shareCardBtn').onclick = shareCard;
+$('shareFriendBtn').onclick = shareFriend;
+
+function show(id){ ['intro','quiz','result'].forEach(s => $(s).classList.toggle('hidden', s!==id)); window.scrollTo(0,0); }
+
+// 換題要有「換檔感」：先亮起選的答案，舊題滑出、新題滑入、題號跳一下
+let busy = false;
+function renderQ(dir){
+  const q = QUESTIONS[idx], body = $('qbody'), qn = $('qn');
+  qn.textContent = idx+1; qn.classList.remove('bump'); void qn.offsetWidth; qn.classList.add('bump');
+  $('bar').style.width = (idx/QUESTIONS.length*100)+'%';
+  $('qtext').textContent = q.t;
+  $('opts').innerHTML = '';
+  OPTIONS.forEach(o => {
+    const b = document.createElement('button');
+    b.className = 'opt' + (answers[idx]===o.v ? ' prev' : ''); b.type='button'; b.textContent = o.l;
+    b.onclick = () => pick(b, o.v);
+    $('opts').appendChild(b);
+  });
+  $('backBtn').style.visibility = idx===0 ? 'hidden' : 'visible';
+  if(dir){ body.className = 'qbody ' + (dir>0 ? 'in-r' : 'in-l'); }
+}
+function swap(dir, after){
+  const body = $('qbody');
+  body.className = 'qbody ' + (dir>0 ? 'out-l' : 'out-r');
+  setTimeout(() => { after(); busy = false; }, 180);
+}
+function pick(btn, v){
+  if(busy) return; busy = true;
+  answers[idx] = v;
+  btn.classList.add('picked');
+  if(navigator.vibrate) try{ navigator.vibrate(12); }catch(e){}
+  $('bar').style.width = ((idx+1)/QUESTIONS.length*100)+'%';
+  setTimeout(() => {
+    if(idx < QUESTIONS.length-1) swap(1, () => { idx++; renderQ(1); save(false); });
+    else { busy = false; finish(); }
+  }, 220);
+}
+$('backBtn').onclick = () => { if(idx>0 && !busy){ busy = true; swap(-1, () => { idx--; renderQ(-1); save(false); }); } };
+$('startBtn').onclick = () => { idx=0; answers=[]; clearSave(); show('quiz'); renderQ(); track('QuizStart'); };
+
+function compute(){
+  const sum = {see:0,dir:0,act:0,pick:0};
+  QUESTIONS.forEach((q,i) => sum[q.a] += answers[i]);
+  const axis = {};
+  Object.keys(sum).forEach(k => axis[k] = Math.round((9-sum[k])/9*100));
+  const total = Math.round(Object.values(axis).reduce((a,b)=>a+b,0)/4);
+  // 最低的面向＝類型；同分時依 看清現況 → 敢做選擇 → 動起來 → 方向感
+  // 同分時，比較哪一塊選了比較多「很像我」；還是同分就兩型都顯示
+  const strong = {see:0,dir:0,act:0,pick:0};
+  QUESTIONS.forEach((q,i) => { if(answers[i]===3) strong[q.a]++; });
+  const order = ['see','pick','act','dir'];
+  const min = Math.min(...order.map(k => axis[k]));
+  let tied = order.filter(k => axis[k]===min);
+  const maxStrong = Math.max(...tied.map(k => strong[k]));
+  tied = tied.filter(k => strong[k]===maxStrong);
+  const allSame = answers.every(v => v===answers[0]);
+  if(min >= 67) return {axis, total, type:'smooth', also:null, allSame};
+  return {axis, total, type:tied[0], also:tied[1]||null, allSame};
+}
+
+function finish(quiet){
+  $('bar').style.width='100%';
+  result = compute();
+  const T = TYPES[result.type];
+  renderId(result.type);
+  $('typeName').textContent = T.name;
+  $('typeLine').textContent = T.line
+    + (result.also ? `另外，你在「${TYPES[result.also].name}」這一塊也有一點卡。` : '');
+  $('sameNote').classList.toggle('hidden', !result.allSame);
+  $('typeAction').textContent = T.action;
+  // 完整報告內容先填好
+  const smooth = result.type==='smooth';
+  const topK = Object.keys(AXES).reduce((a,b) => result.axis[b] > result.axis[a] ? b : a);
+  const mark = smooth ? topK : result.type, markText = smooth ? '你最強的是這一塊' : '你現在卡在這裡';
+  $('stuckH').textContent = smooth ? '這一型要留意的 3 個地方' : '這一型最常卡住的 3 個地方';
+  $('ctaH').textContent = smooth ? T.cta[0] : '想知道卡住之後，怎麼往前走？';
+  $('ctaP').textContent = smooth ? T.cta[1] : '健檢只告訴你卡在哪。怎麼一步一步走出來，是線上課〈別急著找答案！善用設計思考，打造你自己的人生藍圖〉在做的事。';
+  $('bars').innerHTML = Object.keys(AXES).map(k => {
+    const isLow = k===mark;
+    return `<div class="bar${isLow?' low':''}"><div class="row"><span>${AXES[k]}${isLow?`<em>${markText}</em>`:''}</span><span>${result.axis[k]}</span></div><div class="track"><div class="fill" style="width:${Math.max(result.axis[k],4)}%"></div></div></div>`;
+  }).join('');
+  $('stuck').innerHTML = T.stuck.map(s => `<li>${s}</li>`).join('');
+  $('stuckNote').textContent = T.note;
+  $('sheetTitle').textContent = `7 天觀察表｜${T.name}`;
+  $('sheetRows').innerHTML = T.observe.map((o,i) => `<tr><td class="d">第 ${i+1} 天</td><td>${o}</td><td class="box"><i></i></td></tr>`).join('');
+  $('eps').innerHTML = T.eps.map(e => `<div class="ep"><b>${e}</b>${EP_TITLES[e]}</div>`).join('');
+  $('gate').classList.remove('hidden');
+  $('lv2').classList.add('hidden');
+  renderNext(result.type, T.name);
+  show('result');
+  if(!quiet) track('QuizComplete', {type:T.name, score:result.total});
+  save(true);
+}
+
+/* ====== 明天的遊戲：依類型一句話，10/29 之後直接連過去 ====== */
+const NEXT_LINE = {
+  see:   '可以把你說不太清楚的那件事，改寫成今天就能回答的問題。',
+  dir:   '可以把你最近卡住的那件事，改寫成今天就能動手的問題。',
+  act:   '可以把看起來太大的第一步，改寫成 30 分鐘做得完的小問題。',
+  pick:  '可以把「到底選哪一個」，改寫成先試一週的小實驗。',
+  smooth:'可以把你最近想再往前推的事，換成幾個新的問法。'
+};
+function renderNext(type, name){
+  const g2 = GAMES[1], today = taipeiToday(), open = window.TEST || today >= g2.open;
+  const when = open ? '現在就可以玩的' : (today === '2026-10-28' ? '明天（10/29）開放的' : '10/29（四）開放的');
+  $('nextTag').textContent = open ? '現在就可以玩' : (today === '2026-10-28' ? '明天開放' : '10/29 開放');
+  $('nextLine').textContent = `你是「${name}」型。${when}「煩惱改寫卡」，${NEXT_LINE[type]}`;
+  $('nextBtn').classList.toggle('hidden', !open);
+  $('nextBtn').href = open ? keepParams(g2.href) : '#';
+  $('nextCopy').classList.toggle('hidden', open);
+}
+$('nextCopy').onclick = async () => {
+  const url = location.href.split('#')[0];
+  try{ await navigator.clipboard.writeText(url); }
+  catch(e){ const t=document.createElement('textarea'); t.value=url; document.body.appendChild(t); t.select(); try{document.execCommand('copy');}catch(_){} t.remove(); }
+  $('nextCopy').textContent = '已複製，明天見！';
+  setTimeout(() => $('nextCopy').textContent = '複製這頁連結，明天回來玩', 2000);
+};
+
+/* ====== 重新整理不用從頭來（sessionStorage，失敗就略過） ====== */
+const SKEY = 'chacha_check_v1';
+function save(done){
+  try{ sessionStorage.setItem(SKEY, JSON.stringify({idx, answers, done:!!done})); }catch(e){}
+}
+function clearSave(){ try{ sessionStorage.removeItem(SKEY); }catch(e){} }
+
+$('retry').onclick = () => { idx=0; answers=[]; clearSave(); show('intro'); };
+
+$('emailForm').onsubmit = e => {
+  e.preventDefault();
+  const email = $('email').value.trim();
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ $('emailErr').classList.remove('hidden'); return; }
+  $('emailErr').classList.add('hidden');
+  const T = TYPES[result.type];
+  const payload = {
+    email, subscribe: $('subscribe').checked ? 'yes' : 'no',
+    type: T.name, score: result.total,
+    see: result.axis.see, dir: result.axis.dir, act: result.axis.act, pick: result.axis.pick,
+    page: location.href
+  };
+  if(ENDPOINT && !window.TEST){
+    try{
+      fetch(ENDPOINT, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(payload)});
+    }catch(err){}
+  }
+  track('EmailUnlock', {type:T.name, subscribe:payload.subscribe});
+  $('gate').classList.add('hidden');
+  $('lv2').classList.remove('hidden');
+  $('lv2').scrollIntoView({behavior:'smooth'});
+};
+
+$('ep00').onclick = () => track('CourseClick', {target:'EP00', type: result ? TYPES[result.type].name : ''});
+
+$('printBtn').onclick = () => window.print();
+$('saveImg').onclick = () => {
+  if(!window.html2canvas){ window.print(); return; }
+  html2canvas($('sheet'), {scale:2, backgroundColor:'#ffffff'}).then(c => {
+    const a = document.createElement('a');
+    a.download = '7天觀察表.png'; a.href = c.toDataURL('image/png'); a.click();
+  });
+};
+
+/* 三個小遊戲：依台北日期開放（測試可加 ?today=2026-10-30） */
+function taipeiToday(){
+  const q = new URLSearchParams(location.search).get('today');
+  if(q) return q;
+  return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+}
+function keepParams(href){ const q = location.search; return q ? href + q : href; }
+(function renderGames(){
+  const today = taipeiToday();
+  $('games').innerHTML = GAMES.map(g => {
+    const open = window.TEST || today >= g.open;
+    const md = g.open.slice(5).replace('-','/').replace(/^0/,'');
+    const cls = g.n===CURRENT_GAME ? 'current' : (open ? '' : 'locked');
+    const badge = g.n===CURRENT_GAME ? '你在這裡' : (open ? '去玩 →' : `🔒 ${md} 開放`);
+    const href = (open && g.n!==CURRENT_GAME) ? keepParams(g.href) : '#';
+    return `<a class="game ${cls}" href="${href}"${open ? '' : ' aria-disabled="true"'}><span class="n">${g.n}</span><span><div class="t">${g.t}</div><div class="s">${g.s}</div></span><span class="badge">${badge}</span></a>`;
+  }).join('');
+})();
+
+/* 重新整理後接著做 */
+(function restore(){
+  let st = null;
+  try{ st = JSON.parse(sessionStorage.getItem(SKEY) || 'null'); }catch(e){}
+  if(!st || !Array.isArray(st.answers) || !st.answers.length) return;
+  answers = st.answers.slice(0, QUESTIONS.length);
+  if(st.done && answers.length === QUESTIONS.length){ finish(true); return; }
+  idx = Math.min(st.idx || 0, QUESTIONS.length - 1);
+  show('quiz'); renderQ();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>找人聊 15 分鐘｜邀約訊息、好問題、聊完筆記</title>
+<meta name="description" content="選好要找誰、聊什麼，馬上拿到一則不尷尬的邀約訊息、6 個好問題和聊完筆記。不用登入、不用留資料。">
+<meta property="og:title" content="找人聊 15 分鐘｜邀約訊息、好問題、聊完筆記">
+<meta property="og:description" content="一則不尷尬的邀約訊息＋6 個好問題＋聊完筆記。不用登入、不用留資料。">
+<!-- 上線後改成完整網址 -->
+<meta property="og:image" content="https://designthinking-powwow.github.io/playground/talk/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+<!-- ?test=1：所有遊戲打開、不送任何追蹤 -->
+<script>window.TEST = /[?&]test=1(&|$)/.test(location.search);</script>
+<!-- Meta Pixel（設計思考 419270146293255） -->
+<script>
+if(!window.TEST){
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','419270146293255');fbq('track','PageView');
+}
+</script>
+<!-- GA4 -->
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+if(!window.TEST){
+  var g=document.createElement('script');g.async=true;g.src='https://www.googletagmanager.com/gtag/js?id=G-Y0VX6H9PVX';document.head.appendChild(g);
+  gtag('js',new Date());gtag('config','G-Y0VX6H9PVX');
+}
+</script>
+
+<style>
+:root{
+  --bg:#F6F4EF; --card:#FFFFFF; --ink:#16181D; --muted:#5B6070; --line:#E3E0D8;
+  --accent:#1F4FD8; --accent-soft:#E6ECFB; --ok:#2BB673;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:Inter,"Noto Sans TC",system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:560px;margin:0 auto;padding:20px 16px 48px}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+header img{height:30px;width:auto;display:block}
+.tag{font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--accent);text-transform:uppercase}
+h1{font-size:30px;line-height:1.25;font-weight:900;margin:8px 0 12px}
+h2{font-size:22px;line-height:1.35;font-weight:800;margin:0 0 10px}
+h3{font-size:17px;font-weight:700;margin:22px 0 8px}
+p{margin:0 0 12px}
+.muted{color:var(--muted);font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px}
+.btn{display:block;width:100%;border:0;border-radius:12px;padding:15px 18px;font:inherit;font-weight:700;font-size:16px;cursor:pointer;text-align:center;text-decoration:none}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-ghost{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
+.btn+.btn{margin-top:10px}
+.pill{display:inline-block;background:var(--accent-soft);color:var(--accent);font-size:13px;font-weight:600;border-radius:999px;padding:3px 10px;margin-right:6px}
+.hidden{display:none!important}
+
+
+/* form */
+.step{font-size:13px;font-weight:700;color:var(--accent);margin:18px 0 6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font:inherit;font-size:15px;cursor:pointer;color:var(--ink);transition:border-color .12s,background .12s,color .12s}
+@media (hover:hover){.chip:hover{border-color:var(--accent)}}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700}
+input[type=text]{width:100%;font:inherit;font-size:16px;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
+input[type=text]:focus{outline:none;border-color:var(--accent)}
+label.field{display:block;font-size:14px;font-weight:600;margin:12px 0 6px}
+label.field small{color:var(--muted);font-weight:400}
+.err{color:#C0392B;font-size:14px;margin:10px 0 0}
+
+/* result */
+.part{border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px;opacity:0;transform:translateY(8px);animation:rise .32s ease-out forwards}
+.part h3{margin:0 0 8px;display:flex;align-items:center;gap:8px}
+.part h3 .n{flex:none;width:26px;height:26px;border-radius:8px;background:var(--accent);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-family:Inter,sans-serif}
+.part textarea{width:100%;min-height:150px;font:inherit;font-size:16px;line-height:1.65;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:#FBFAF7;color:var(--ink);resize:vertical}
+.part textarea:focus{outline:none;border-color:var(--accent);background:#fff}
+.part ol{margin:0;padding-left:22px}
+.part ol li{margin-bottom:8px}
+.part .notes div{border-bottom:1.5px dashed var(--line);padding:10px 0;font-weight:600}
+.small-btn{display:inline-block;margin-top:10px;border:1.5px solid var(--accent);background:#fff;color:var(--accent);border-radius:10px;padding:8px 14px;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.small-btn.done{background:var(--accent);color:#fff}
+.hint{font-size:13px;color:var(--muted);margin:8px 0 0}
+@keyframes rise{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.part{animation-duration:.01s}}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:14px;padding:10px 16px;border-radius:999px;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.show{opacity:1}
+
+/* games strip */
+.games{display:grid;gap:10px}
+.game{display:flex;gap:12px;align-items:center;border:1px solid var(--line);background:#fff;border-radius:14px;padding:14px;text-decoration:none;color:var(--ink)}
+.game .n{flex:none;width:36px;height:36px;border-radius:10px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-family:Inter,sans-serif}
+.game .t{font-weight:700}
+.game .s{font-size:13px;color:var(--muted)}
+.game.locked{pointer-events:none;background:#F1EFEA;border-style:dashed}
+.game.locked .t{color:var(--muted)}
+.game.locked .n{background:#8A8F9C}
+.game.locked .badge{background:#16181D;color:#fff;border-radius:999px;padding:3px 10px}
+.game .badge{margin-left:auto;font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap}
+.game.current{border-color:var(--accent)}
+.game.current .badge{color:var(--accent)}
+footer{margin-top:28px;text-align:center;font-size:12px;color:var(--muted)}
+footer img{height:22px;opacity:.85;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="logo.png" alt="DESIGN THINKING POW WOW">
+    <span class="tag">免費小遊戲 3/3</span>
+  </header>
+
+  <!-- 選擇 -->
+  <section id="intro">
+    <div class="card">
+      <span class="pill">三分鐘</span><span class="pill">不用留資料</span>
+      <h1>找人聊 15 分鐘</h1>
+      <p>卡住的時候，跟走過那段路的人聊 15 分鐘，常常比自己想一整晚更有用。難的通常是不知道怎麼開口、聊什麼。選好兩件事，馬上幫你準備好：</p>
+      <p class="muted" style="line-height:1.9">① 一則不尷尬的邀約訊息<br>② 6 個好問題<br>③ 聊完的 3 行筆記</p>
+
+      <div class="step">1｜你想找誰聊？</div>
+      <div class="chips" id="whoChips"></div>
+
+      <div class="step">2｜想聊什麼？</div>
+      <div class="chips" id="topicChips"></div>
+      <div id="otherBox" class="hidden">
+        <label class="field" for="other">用幾個字說說想聊的事</label>
+        <input type="text" id="other" maxlength="24" placeholder="例如：想去社區大學教書">
+      </div>
+
+      <div class="step">3｜幫訊息填上稱呼 <small style="color:var(--muted);font-weight:400">（可以不填）</small></div>
+      <label class="field" for="them">對方怎麼稱呼</label>
+      <input type="text" id="them" maxlength="12" placeholder="例如：王學姊、Amy">
+      <div id="strangerBox" class="hidden">
+        <label class="field" for="me">你的名字</label>
+        <input type="text" id="me" maxlength="12" placeholder="例如：阿凱">
+        <label class="field" for="where">在哪裡認識或看到對方 <small>（讓對方知道你是誰）</small></label>
+        <input type="text" id="where" maxlength="24" placeholder="例如：上次的講座聽過您分享">
+      </div>
+
+      <div class="err hidden" id="err"></div>
+      <button class="btn btn-primary" id="go" style="margin-top:18px">幫我準備好</button>
+      <p class="muted" style="margin-top:12px">你填的字只在你的手機上處理，不會送出去。</p>
+    </div>
+  </section>
+
+  <!-- 結果 -->
+  <section id="result" class="hidden">
+    <div class="card">
+      <div class="tag" id="rTag">你的 15 分鐘包</div>
+      <h2>三樣都準備好了</h2>
+
+      <div class="part" style="animation-delay:0ms">
+        <h3><span class="n">1</span>邀約訊息</h3>
+        <textarea id="msg" aria-label="邀約訊息"></textarea>
+        <p class="hint">傳出去之前，改成你平常說話的樣子，對方會更自在。</p>
+        <button class="small-btn" data-copy="msg">複製訊息</button>
+      </div>
+
+      <div class="part" style="animation-delay:90ms">
+        <h3><span class="n">2</span>6 個好問題</h3>
+        <ol id="qs"></ol>
+        <p class="hint">15 分鐘問 2–3 題就夠了，挑你最想知道的。</p>
+        <button class="small-btn" data-copy="qs">複製問題</button>
+      </div>
+
+      <div class="part" style="animation-delay:180ms">
+        <h3><span class="n">3</span>聊完筆記</h3>
+        <div class="notes" id="notes"></div>
+        <p class="hint">聊完 24 小時內，傳一句謝謝，順便說你打算先試哪一件小事。</p>
+        <button class="small-btn" data-copy="notes">複製筆記格式</button>
+      </div>
+
+      <button class="btn btn-primary" id="copyAll">全部複製</button>
+      <button class="btn btn-ghost" id="again">換一個人或話題</button>
+    </div>
+
+    <div class="card">
+      <h2>聊完之後，怎麼變成下一步？</h2>
+      <p>這個小包幫你約到人、問對問題。聊完之後，怎麼把聽到的整理成自己的下一步，是線上課〈別急著找答案！善用設計思考，打造你自己的人生藍圖〉在做的事。</p>
+      <p>先免費看 5 分鐘課程介紹 EP00，11/01（日）開賣。</p>
+      <a class="btn btn-primary" id="ep00" href="https://youtu.be/UnSkHuQmk7o" target="_blank" rel="noopener">免費看 EP00 課程介紹</a>
+    </div>
+  </section>
+
+  <!-- 三個小遊戲 -->
+  <section style="margin-top:28px">
+    <h3>三個小遊戲，一天開一個</h3>
+    <p class="muted">前面的遊戲會一直留著，哪天來都可以玩。</p>
+    <div class="games" id="games"></div>
+  </section>
+
+  <footer>
+    <img src="logo.png" alt="DESIGN THINKING POW WOW"><br>
+    查查創意｜Design Thinking POW WOW<br>
+    https://www.designthinking.com.tw
+  </footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="engine.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+
+function track(name, params){
+  if(window.TEST){ console.log('[test]', name, params||{}); return; }
+  try{ if(window.fbq) fbq('trackCustom', name, params||{}); }catch(e){}
+  try{
+    const ga = {Game3Start:'game3_start', Game3Result:'game3_result', Game3Copy:'game3_copy', CourseClick:'course_click'}[name] || name;
+    if(window.gtag) gtag('event', ga, params||{});
+  }catch(e){}
+}
+
+/* ====== 三個小遊戲（依台北日期開放） ====== */
+const GAMES = [
+  {n:1, t:'卡關健檢', s:'兩分鐘，看出你卡在哪', open:'2026-10-28', href:'../check/'},
+  {n:2, t:'煩惱改寫卡', s:'把一句煩惱，改寫成可以動手的問題', open:'2026-10-29', href:'../rewrite/'},
+  {n:3, t:'找人聊 15 分鐘', s:'邀約訊息、好問題、聊完筆記', open:'2026-10-30', href:'../talk/'}
+];
+const CURRENT_GAME = 3;
+function taipeiToday(){
+  const q = new URLSearchParams(location.search).get('today');
+  if(q) return q;
+  return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+}
+function isOpen(g){ return window.TEST || taipeiToday() >= g.open; }
+function keepParams(href){ const q = location.search; return q ? href + q : href; }
+(function renderGames(){
+  $('games').innerHTML = GAMES.map(g => {
+    const open = isOpen(g);
+    const md = g.open.slice(5).replace('-','/').replace(/^0/,'');
+    const cls = g.n===CURRENT_GAME ? 'current' : (open ? '' : 'locked');
+    const badge = g.n===CURRENT_GAME ? '你在這裡' : (open ? '去玩 →' : `🔒 ${md} 開放`);
+    const href = (open && g.n!==CURRENT_GAME) ? keepParams(g.href) : '#';
+    return `<a class="game ${cls}" href="${href}"${open ? '' : ' aria-disabled="true"'}><span class="n">${g.n}</span><span><div class="t">${g.t}</div><div class="s">${g.s}</div></span><span class="badge">${badge}</span></a>`;
+  }).join('');
+})();
+
+/* ====== 選擇 ====== */
+let who = null, topic = null, started = false;
+function start(){ if(!started){ started = true; track('Game3Start'); } }
+$('whoChips').innerHTML = Object.entries(Chat.WHO).map(([k,v]) => `<button type="button" class="chip" data-k="${k}">${v.label}</button>`).join('');
+$('topicChips').innerHTML = Object.entries(Chat.TOPICS).map(([k,v]) => `<button type="button" class="chip" data-k="${k}">${v.label}</button>`).join('');
+function pick(box, ev){
+  const b = ev.target.closest('.chip'); if(!b) return null;
+  box.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', c===b));
+  $('err').classList.add('hidden'); start();
+  return b.dataset.k;
+}
+$('whoChips').onclick = ev => { const k = pick($('whoChips'), ev); if(k){ who = k; $('strangerBox').classList.toggle('hidden', k!=='stranger'); } };
+$('topicChips').onclick = ev => { const k = pick($('topicChips'), ev); if(k){ topic = k; $('otherBox').classList.toggle('hidden', k!=='other'); if(k==='other') $('other').focus(); } };
+
+/* ====== 產生 ====== */
+let last = null;
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+$('go').onclick = () => {
+  if(!who || !topic){
+    $('err').textContent = !who ? '先選一個你想找的人。' : '再選一個想聊的話題。';
+    $('err').classList.remove('hidden'); return;
+  }
+  const r = Chat.build({who, topic, other:$('other').value, them:$('them').value, me:$('me').value, where:$('where').value});
+  last = r;
+  $('rTag').textContent = `找${r.who}聊「${r.topic}」`;
+  $('msg').value = r.msg;
+  requestAnimationFrame(grow);
+  $('qs').innerHTML = r.qs.map(q => `<li>${esc(q)}</li>`).join('');
+  $('notes').innerHTML = r.notes.map(n => `<div>${esc(n)}</div>`).join('');
+  document.querySelectorAll('.small-btn').forEach(b => { b.classList.remove('done'); b.textContent = b.dataset.label; });
+  $('intro').classList.add('hidden'); $('result').classList.remove('hidden'); window.scrollTo(0,0);
+  track('Game3Result', {who, topic});
+};
+function grow(){ const t = $('msg'); t.style.height = 'auto'; t.style.height = (t.scrollHeight + 4) + 'px'; }
+$('msg').addEventListener('input', grow);
+$('again').onclick = () => { $('result').classList.add('hidden'); $('intro').classList.remove('hidden'); window.scrollTo(0,0); };
+
+function toast(t){ const el=$('toast'); el.textContent=t; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),1800); }
+function partText(k){
+  if(k==='msg') return $('msg').value;
+  if(k==='qs') return last.qs.map((q,i)=>`${i+1}. ${q}`).join('\n');
+  return '聊完筆記\n' + last.notes.map((n,i)=>`${i+1}. ${n}`).join('\n');
+}
+async function copy(text){
+  try{ await navigator.clipboard.writeText(text); }
+  catch(e){ const t=document.createElement('textarea'); t.value=text; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); }
+}
+document.querySelectorAll('.small-btn').forEach(b => { b.dataset.label = b.textContent; });
+document.querySelectorAll('.small-btn').forEach(b => b.onclick = async () => {
+  if(!last) return;
+  await copy(partText(b.dataset.copy)); b.classList.add('done'); b.textContent = '已複製 ✓';
+  toast('已複製'); track('Game3Copy', {part:b.dataset.copy});
+});
+$('copyAll').onclick = async () => {
+  if(!last) return;
+  await copy(`【邀約訊息】\n${partText('msg')}\n\n【6 個好問題】\n${partText('qs')}\n\n【${partText('notes')}`.replace('【聊完筆記\n','【聊完筆記】\n'));
+  toast('已全部複製'); track('Game3Copy', {part:'all'});
+};
+$('ep00').onclick = () => track('CourseClick', {target:'EP00', game:3});
+</script>
+</body>
+</html>
